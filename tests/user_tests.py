@@ -85,6 +85,22 @@ def test_authed_teacher_cant_see_other_students():
 
     assert not any(results)
 
+def test_authed_blueshirt_can_see_own_students():
+    a = User.create_user("blueshirt", "blueshirt")
+    users = ["student_coll1_1", "teacher_coll1"]
+
+    results = [a.can_administrate(user) for user in users]
+
+    assert all(results)
+
+def test_authed_blueshirt_cant_see_other_students():
+    a = User.create_user("blueshirt", "blueshirt")
+    users = ["student_coll1_2", "student_coll2_2", "student_coll2_1"]
+
+    results = [a.can_administrate(user) for user in users]
+
+    assert not any(results)
+
 def test_authed_teachers_cant_see_blueshirt():
     u = User.create_user("teacher_coll1", "facebees")
     u2 = User.create_user("teacher_coll2", "noway")
