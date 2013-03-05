@@ -90,7 +90,11 @@ class AuthenticatedUser(User):
         return False
 
     def _can_view_if_teacher(self, user_object):
-        return self.is_teacher and self._any_college_has_member(user_object)
+        return self.is_teacher and \
+               self._any_college_has_member(user_object) and \
+               not user_object.is_blueshirt
 
     def _can_view_if_blueshirt(self, user_object):
-        return self.is_blueshirt and self._any_team_has_member(user_object)
+        return self.is_blueshirt and \
+               self._any_team_has_member(user_object) and \
+               not user_object.is_blueshirt
