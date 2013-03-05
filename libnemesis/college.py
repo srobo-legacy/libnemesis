@@ -1,6 +1,8 @@
 import srusers
 import re
 
+import user
+
 class College:
     @classmethod
     def is_valid_college_name(cls, string):
@@ -16,11 +18,11 @@ class College:
     @property
     def teams(self):
         teams = set()
-        for user in self.users:
-            teams.update(user.teams)
+        for user_object in self.users:
+            teams.update(user_object.teams)
 
         return teams
 
     @property
     def users(self):
-        return [User.create_user(username=un) for un in self._group.members]
+        return [user.User.create_user(username=un) for un in self._group.members]
