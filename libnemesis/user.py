@@ -42,17 +42,17 @@ class User:
     def is_blueshirt(self):
         return "mentors" in self._user.groups()
 
-    def can_view_details(self, other_user_or_username):
+    def can_administrate(self, other_user_or_username):
         #if it's a string return the internal comparison with a user object
         if isinstance(other_user_or_username, basestring):
             other_user_or_username = User(other_user_or_username)
 
-        return self._can_view_details(other_user_or_username)
+        return self._can_administrate(other_user_or_username)
 
     def _valid_team_groups(self):
         return [Team(g) for g in self._user.groups() if Team.valid_team_name(g)]
 
-    def _can_view_details(self, user_object):
+    def _can_administrate(self, user_object):
         return False
 
     def __eq__(self, other):
@@ -70,8 +70,10 @@ class AuthenticatedUser(User):
         assert self._user.bind(password)
         self._password = password
 
-    def _can_view_details(self, user_object):
-        return self._can_view_if_teacher(user_object) or self._can_view_if_blueshirt(user_object)
+    def _can_administrate(self, user_object):
+        return self._can_view_if_teacher(user_object) or\
+               self._can_view_if_blueshirt(user_object) or\
+               user_object == self
 
     def _any_college_has_member(self, user_object):
         for college in self.colleges:
