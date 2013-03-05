@@ -1,6 +1,8 @@
 import re
 import srusers
 
+import user
+
 class Team:
     @classmethod
     def valid_team_name(cls, team_name):
@@ -12,4 +14,4 @@ class Team:
 
     @property
     def users(self):
-        return [User(un) for un in self._group.members]
+        return [user.User(un) for un in self._group.members]
