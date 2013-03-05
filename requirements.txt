@@ -1,0 +1,4 @@
+distribute==0.6.24
+nose==1.2.1
+python-ldap==2.4.10
+wsgiref==0.1.2
