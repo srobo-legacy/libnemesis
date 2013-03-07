@@ -112,3 +112,15 @@ def test_authed_teachers_cant_see_blueshirt():
     a = User.create_user("blueshirt")
 
     assert not any([u.can_administrate(a) for u in users])
+
+def test_set_password():
+    u = User.create_user("teacher_coll1", "facebees")
+    u.set_password("bacon")
+    u.save()
+
+    u = User.create_user("teacher_coll1", "bacon")
+
+    assert u.can_administrate("student_coll1_1")
+
+    u.set_password("facebees")
+    u.save()

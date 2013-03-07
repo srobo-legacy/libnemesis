@@ -27,6 +27,9 @@ class User:
         if not self._user.in_db:
             raise Exception("user does not exist in database")
 
+    def set_password(self, password):
+        self._user.set_passwd(old=None, new=password)
+
     @property
     def username(self):
         return self._user.username
@@ -74,6 +77,9 @@ class User:
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def save(self):
+        self._user.save()
 
 class AuthenticatedUser(User):
     def __init__(self, username, password):
