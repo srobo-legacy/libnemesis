@@ -14,6 +14,14 @@ class User:
     def can_authenticate(cls, username, password):
         return password is not None and srusers.user(username).bind(password)
 
+    @classmethod
+    def from_flask_request(cls, req):
+        form = req.form
+        if req.form.has_key("username") and req.form.has_key("password"):
+            return User.create_user(form["username"], form["password"])
+        else:
+            return NullUser()
+
     def __init__(self, username):
         self._user = srusers.user(username)
         if not self._user.in_db:
@@ -31,12 +39,18 @@ class User:
 
     @property
     def colleges(self):
+        print self._user
+        print self._user.groups()
         return [College(g) for g in self._user.groups()\
                 if College.is_valid_college_name(g)]
 
     @property
     def is_teacher(self):
+        print self._user.in_db
         return "teachers" in self._user.groups()
+
+    def can_register_users(self):
+        return False
 
     @property
     def is_blueshirt(self):
@@ -70,6 +84,9 @@ class AuthenticatedUser(User):
         assert self._user.bind(password)
         self._password = password
 
+    def can_register_users(self):
+        return self.is_teacher or self.is_blueshirt
+
     def _can_view_details(self, user_object):
         return self._can_view_if_teacher(user_object) or self._can_view_if_blueshirt(user_object)
 
@@ -92,3 +109,8 @@ class AuthenticatedUser(User):
 
     def _can_view_if_blueshirt(self, user_object):
         return self.is_blueshirt and self._any_team_has_member(user_object)
+
+class NullUser:
+    def __init__(self):
+        self.can_register_users = False
+        self.username = ""
