@@ -118,3 +118,6 @@ class NullUser:
     def __init__(self):
         self.can_register_users = False
         self.username = ""
+
+    def can_administrate(self, other_user):
+       return False
