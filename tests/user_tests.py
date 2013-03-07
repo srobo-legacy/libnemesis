@@ -22,6 +22,10 @@ def test_user_colleges2():
     college_names = [college.name for college in User.create_user("teacher_coll2").colleges]
     assert college_names == ["secondary college"]
 
+def test_user_colleges1():
+    college_names = [college.name for college in User.create_user("teacher_coll1").colleges]
+    assert college_names == ["college the first"]
+
 def test_is_teacher_1():
     assert not User.create_user("student_coll2_1").is_teacher
 
@@ -29,7 +33,7 @@ def test_is_teacher_2():
     assert User.create_user("teacher_coll1").is_teacher
 
 def test_is_blueshirt_1():
-    assert User.create_user("blueshirt_1").is_blueshirt
+    assert User.create_user("blueshirt").is_blueshirt
 
 def test_user_equality():
     a = User.create_user("teacher_coll1")
