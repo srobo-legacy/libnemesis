@@ -39,14 +39,11 @@ class User:
 
     @property
     def colleges(self):
-        print self._user
-        print self._user.groups()
         return [College(g) for g in self._user.groups()\
                 if College.is_valid_college_name(g)]
 
     @property
     def is_teacher(self):
-        print self._user.in_db
         return "teachers" in self._user.groups()
 
     def can_register_users(self):
