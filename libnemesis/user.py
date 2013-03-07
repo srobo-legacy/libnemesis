@@ -82,6 +82,7 @@ class AuthenticatedUser(User):
     def __init__(self, username, password):
         self._user = srusers.user(username)
         assert self._user.bind(password)
+        self._user = srusers.user(username)
         self._password = password
 
     def can_register_users(self):

@@ -22,8 +22,8 @@ def test_user_colleges2():
     college_names = [college.name for college in User.create_user("teacher_coll2").colleges]
     assert college_names == ["secondary college"]
 
-def test_user_colleges1():
-    college_names = [college.name for college in User.create_user("teacher_coll1").colleges]
+def test_authed_user_colleges():
+    college_names = [college.name for college in User.create_user("teacher_coll1", "facebees").colleges]
     assert college_names == ["college the first"]
 
 def test_is_teacher_1():
