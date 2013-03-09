@@ -10,6 +10,7 @@ class College:
 
     def __init__(self, group_name):
         self._group = srusers.group(group_name)
+        self._group_name = group_name
 
     @property
     def name(self):
@@ -26,3 +27,18 @@ class College:
     @property
     def users(self):
         return [user.User.create_user(username=un) for un in self._group.members]
+
+    def __eq__(self, other):
+        print "called"
+        if isinstance(other, College):
+            return self._group_name == other._group_name
+        elif isinstance(other, basestring):
+            return self._group_name == other
+        else:
+            return False
+
+    def __neq__(self, other):
+        return not self.__eq__(other)
+
+    def __hash__(self):
+        return hash(self._group_name)
