@@ -37,6 +37,12 @@ class User:
     def set_email(self, email):
         self._user.email = str(email)
 
+    def set_first_name(self, first_name):
+        self._user.cname = str(first_name)
+
+    def set_last_name(self, last_name):
+        self._user.sname = str(last_name)
+
     @property
     def username(self):
         return self._user.username
