@@ -99,7 +99,7 @@ def test_authed_blueshirt_can_see_own_students():
 
 def test_authed_blueshirt_cant_see_other_students():
     a = User.create_user("blueshirt", "blueshirt")
-    users = ["student_coll1_2", "student_coll2_2", "student_coll2_1"]
+    users = ["student_coll2_2", "student_coll2_1"]
 
     results = [a.can_administrate(user) for user in users]
 
