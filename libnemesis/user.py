@@ -141,3 +141,7 @@ class NullUser:
 
     def is_authenticated(self):
         return False
+
+    @property
+    def colleges(self):
+        return []
