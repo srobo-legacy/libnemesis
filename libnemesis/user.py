@@ -41,6 +41,9 @@ class User:
     def username(self):
         return self._user.username
 
+    def is_authenticated(self):
+        return False
+
     @property
     def email(self):
         return self._user.email
@@ -125,6 +128,9 @@ class AuthenticatedUser(User):
                self._any_college_has_member(user_object) and \
                not user_object.is_blueshirt
 
+    def is_authenticated(self):
+        return True
+
 class NullUser:
     def __init__(self):
         self.can_register_users = False
@@ -132,3 +138,6 @@ class NullUser:
 
     def can_administrate(self, other_user):
        return False
+
+    def is_authenticated(self):
+        return False
