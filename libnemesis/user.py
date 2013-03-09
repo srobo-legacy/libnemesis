@@ -30,9 +30,16 @@ class User:
     def set_password(self, password):
         self._user.set_passwd(old=None, new=password)
 
+    def set_email(self, email):
+        self._user.email = str(email)
+
     @property
     def username(self):
         return self._user.username
+
+    @property
+    def email(self):
+        return self._user.email
 
     @property
     def teams(self):
