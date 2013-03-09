@@ -42,3 +42,9 @@ class College:
 
     def __hash__(self):
         return hash(self._group_name)
+
+    def __unicode__(self):
+        return self._group_name
+
+    def __str__(self):
+        return self._group_name
