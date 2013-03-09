@@ -49,6 +49,14 @@ class User:
         return self._user.email
 
     @property
+    def details_dictionary(self):
+        return {"email":self.email,
+                "username":self.username,
+                "first_name":self._user.cname,
+                "last_name":self._user.sname
+                }
+
+    @property
     def teams(self):
         teams = set()
         teams.update(self._valid_team_groups())
