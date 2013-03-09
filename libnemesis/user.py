@@ -16,8 +16,12 @@ class User:
 
     @classmethod
     def from_flask_request(cls, req):
-        form = req.form
-        if req.form.has_key("username") and req.form.has_key("password"):
+        if req.method == "POST":
+            form = req.form
+        else:
+            print "using args"
+            form = req.args
+        if form.has_key("username") and form.has_key("password"):
             return User.create_user(form["username"], form["password"])
         else:
             return NullUser()
