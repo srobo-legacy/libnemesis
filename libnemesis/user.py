@@ -15,6 +15,15 @@ class User:
         return password is not None and srusers.user(username).bind(password)
 
     @classmethod
+    def authentication_attempted_and_failed(cls, req):
+        if req.method == "POST":
+            form = req.form
+        else:
+            form = req.args
+        return form.has_key("username") and form.has_key("password") and \
+                not User.can_authenticate(form["username"], form["password"])
+
+    @classmethod
     def from_flask_request(cls, req):
         if req.method == "POST":
             form = req.form
@@ -59,7 +68,8 @@ class User:
         return {"email":self.email,
                 "username":self.username,
                 "first_name":self._user.cname,
-                "last_name":self._user.sname
+                "last_name":self._user.sname,
+                "colleges":[x.group_name for x in self.colleges]
                 }
 
     @property

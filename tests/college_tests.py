@@ -37,3 +37,6 @@ def test_college_neq_string_works():
     c2 = "college-2"
 
     assert c != c2
+
+def test_all_colleges():
+    assert len(College.all_college_names()) == 2

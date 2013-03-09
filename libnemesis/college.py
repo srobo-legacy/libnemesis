@@ -5,12 +5,17 @@ import user
 
 class College:
     @classmethod
+    def all_college_names(cls):
+        all_groups = srusers.groups.list()
+        return [g for g in all_groups if College.is_valid_college_name(g)]
+
+    @classmethod
     def is_valid_college_name(cls, string):
         return re.match("college.*", string) is not None
 
     def __init__(self, group_name):
         self._group = srusers.group(group_name)
-        self._group_name = group_name
+        self.group_name = group_name
 
     @property
     def name(self):
@@ -31,9 +36,9 @@ class College:
     def __eq__(self, other):
         print "called"
         if isinstance(other, College):
-            return self._group_name == other._group_name
+            return self.group_name == other.group_name
         elif isinstance(other, basestring):
-            return self._group_name == other
+            return self.group_name == other
         else:
             return False
 
@@ -41,10 +46,10 @@ class College:
         return not self.__eq__(other)
 
     def __hash__(self):
-        return hash(self._group_name)
+        return hash(self.group_name)
 
     def __unicode__(self):
-        return self._group_name
+        return self.group_name
 
     def __str__(self):
-        return self._group_name
+        return self.group_name
