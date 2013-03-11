@@ -3,3 +3,4 @@ venv
 build
 dist
 libnemesis.egg-info
+.coverage
