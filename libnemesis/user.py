@@ -14,27 +14,6 @@ class User:
     def can_authenticate(cls, username, password):
         return password is not None and srusers.user(username).bind(password)
 
-    @classmethod
-    def authentication_attempted_and_failed(cls, req):
-        if req.method == "POST":
-            form = req.form
-        else:
-            form = req.args
-        return form.has_key("username") and form.has_key("password") and \
-                not User.can_authenticate(form["username"], form["password"])
-
-    @classmethod
-    def from_flask_request(cls, req):
-        if req.method == "POST":
-            form = req.form
-        else:
-            print "using args"
-            form = req.args
-        if form.has_key("username") and form.has_key("password"):
-            return User.create_user(form["username"], form["password"])
-        else:
-            return NullUser()
-
     def __init__(self, username):
         self._user = srusers.user(username)
         if not self._user.in_db:
