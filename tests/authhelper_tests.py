@@ -1,14 +1,17 @@
 from libnemesis import AuthHelper
 
+class FakeAuthorization:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
 class FakeRequest:
     def __init__(self, username=None, password=None):
         self.form = {}
-        if username is not None:
-            self.form["username"] = username
-        if password is not None:
-            self.form["password"] = password
-        self.method = "POST"
-
+        if username and password:
+            self.authorization = FakeAuthorization(username, password)
+        else:
+            self.authorization = None
 
 def test_authhelper_finds_invalid_users():
     x = AuthHelper(FakeRequest("wrong_user", "wrong_password"))

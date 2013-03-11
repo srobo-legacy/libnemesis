@@ -4,10 +4,11 @@ from user import AuthenticatedUser, NullUser
 
 class AuthHelper:
     def __init__(self, req):
-        if req.method == "POST":
-            form = req.form
+        if req.authorization:
+            form = {"username":req.authorization.username,
+                    "password":req.authorization.password}
         else:
-            form = req.args
+            form = {}
         self.form = form
 
     @property
