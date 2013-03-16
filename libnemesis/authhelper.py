@@ -50,7 +50,7 @@ class AuthHelper:
             auth_errors.append("NO_PASSWORD")
 
         if not self.user_exists:
-            auth_errors.append("NO_SUCH_USER")
+            auth_errors.append("WRONG_PASSWORD")
         elif not self.password_correct:
             auth_errors.append("WRONG_PASSWORD")
         return json.dumps({"authentication_errors":auth_errors})
