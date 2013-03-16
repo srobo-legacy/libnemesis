@@ -124,3 +124,16 @@ def test_set_password():
 
     u.set_password("facebees")
     u.save()
+
+def test_blueshirt_cant_see_email():
+    u = User.create_user("blueshirt", "blueshirt")
+    u2 = User.create_user("student_coll1_1")
+    d = u2.details_dictionary_for(u)
+    assert not "email" in d
+
+def test_self_can_see_email():
+    u = User.create_user("student_coll1_1", "cows")
+    u2 = User.create_user("student_coll1_1")
+    d = u2.details_dictionary_for(u)
+    assert "email" in d
+
