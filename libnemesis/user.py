@@ -42,14 +42,19 @@ class User:
     def email(self):
         return self._user.email
 
-    @property
-    def details_dictionary(self):
-        return {"email":self.email,
+    def details_dictionary_for(self, other):
+        assert other.can_administrate(self)
+        build =  {
                 "username":self.username,
                 "first_name":self._user.cname,
                 "last_name":self._user.sname,
                 "colleges":[x.group_name for x in self.colleges]
                 }
+
+        if other.is_teacher or self == other:
+            build["email"] = self.email
+
+        return build
 
     @property
     def teams(self):
