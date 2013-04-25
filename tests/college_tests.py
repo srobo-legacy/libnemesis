@@ -1,3 +1,5 @@
+import time
+
 from libnemesis import College
 
 def test_college_has_correct_users():
@@ -40,3 +42,12 @@ def test_college_neq_string_works():
 
 def test_all_colleges():
     assert len(College.all_college_names()) == 2
+
+def test_load_speed():
+    c = College("college-3")
+
+    t = time.time()
+    c.users
+    e = time.time()
+    print e-t
+    assert e-t < 1
