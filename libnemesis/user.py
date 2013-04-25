@@ -67,6 +67,7 @@ class User:
         return [College(g) for g in self._user.groups()\
                 if College.is_valid_college_name(g)]
 
+
     @property
     def is_teacher(self):
         return "teachers" in self._user.groups()
@@ -97,6 +98,9 @@ class User:
         else:
             return False
 
+    def __hash__(self):
+        return self._user.username.__hash__()
+
     def __ne__(self, other):
         return not self.__eq__(other)
 
@@ -109,6 +113,7 @@ class AuthenticatedUser(User):
         assert self._user.bind(password)
         self._user = srusers.user(username)
         self._password = password
+        self._viewable_users = set()
 
     def can_register_users(self):
         return self.is_teacher or self.is_blueshirt
@@ -118,11 +123,9 @@ class AuthenticatedUser(User):
                user_object == self
 
     def _any_college_has_member(self, user_object):
-        for college in self.colleges:
-            for user in college.users:
-                if user == user_object:
-                    return True
-        return False
+        self._setup_viewable_users()
+
+        return user_object in self._viewable_users
 
     def _any_team_has_member(self, user_object):
         for team in self.teams:
@@ -130,6 +133,12 @@ class AuthenticatedUser(User):
                 if user == user_object:
                     return True
         return False
+
+    def _setup_viewable_users(self):
+        if len(self._viewable_users) == 0:
+            for college in self.colleges:
+                for user in college.users:
+                    self._viewable_users.add(user)
 
     def _can_view_if_teacher_or_blueshirt(self, user_object):
         return (self.is_teacher or self.is_blueshirt) and \
