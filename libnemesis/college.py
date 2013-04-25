@@ -34,7 +34,6 @@ class College:
         return [user.User.create_user(username=un) for un in self._group.members]
 
     def __eq__(self, other):
-        print "called"
         if isinstance(other, College):
             return self.group_name == other.group_name
         elif isinstance(other, basestring):
