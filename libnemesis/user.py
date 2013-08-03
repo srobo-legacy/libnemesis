@@ -75,6 +75,7 @@ class User:
                 "username":self.username,
                 "first_name":self._user.cname,
                 "last_name":self._user.sname,
+                "teams":[x.name for x in self.teams],
                 "colleges":[x.group_name for x in self.colleges]
                 }
 
