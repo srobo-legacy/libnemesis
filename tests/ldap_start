@@ -94,7 +94,7 @@ sn: Shirt
 homeDirectory: /home/blueshirt
 mail: blueshirt@srobo.org
 cn: Blue
-userPassword:: e1NIQX1pcjhWdnZOMjRPSWZINTZjUFhSSVBWQVk4OVU9
+userPassword:: e1NIQX1KaWNITFBKcyswbXhpQUE4d2xBZEVxbXFpaTQ9
 
 dn: cn=college-1,ou=groups,o=sr
 objectClass: posixGroup
