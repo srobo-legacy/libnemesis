@@ -19,6 +19,10 @@ class User:
         if not self._user.in_db:
             raise Exception("user does not exist in database")
 
+        # cache any groups we change, since searching the database for them
+        # after our changes will yield very odd results.
+        self._modified_groups = set()
+
     def set_password(self, password):
         self._user.set_passwd(old=None, new=password)
 
@@ -30,6 +34,16 @@ class User:
 
     def set_last_name(self, last_name):
         self._user.sname = str(last_name)
+
+    def set_team(self, new_team):
+        for t in self.teams:
+            grp = srusers.group(t.name)
+            grp.user_rm(self.username)
+            self._modified_groups.add(grp)
+
+        new_grp = srusers.group(new_team)
+        new_grp.user_add(self.username)
+        self._modified_groups.add(new_grp)
 
     @property
     def username(self):
@@ -106,6 +120,8 @@ class User:
 
     def save(self):
         self._user.save()
+        for g in self._modified_groups:
+            g.save()
 
 class AuthenticatedUser(User):
     def __init__(self, username, password):
