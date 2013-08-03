@@ -82,18 +82,18 @@ cn: student4
 mail: sam@sam2518.com
 userPassword:: e1NIQX1NZmNVVlBHSEVQdWxmakFjSWZBMGY0VE84d0E9
 
-dn: uid=bacon,ou=users,o=sr
-uid: bacon
+dn: uid=blueshirt,ou=users,o=sr
+uid: blueshirt
 objectClass: inetOrgPerson
 objectClass: uidObject
 objectClass: posixAccount
 loginShell: /bin/bash
 uidNumber: 2006
 gidNumber: 1999
-sn: bacon
-homeDirectory: /home/bacon
-mail: bacon
-cn: bacon
+sn: Shirt
+homeDirectory: /home/blueshirt
+mail: blueshirt@srobo.org
+cn: Blue
 userPassword:: e1NIQX1pcjhWdnZOMjRPSWZINTZjUFhSSVBWQVk4OVU9
 
 dn: cn=college-1,ou=groups,o=sr
@@ -102,6 +102,7 @@ cn: college-1
 memberUid: teacher_coll1
 memberUid: student_coll1_1
 memberUid: student_coll1_2
+memberUid: blueshirt
 description: college the first
 gidNumber: 3000
 
@@ -119,7 +120,6 @@ objectClass: posixGroup
 cn: teachers
 memberUid: teacher_coll1
 memberUid: teacher_coll2
-memberUid: bacon
 description: teachers group
 gidNumber: 3002
 
@@ -158,3 +158,9 @@ memberUid: student_coll2_2
 description: team-QWZ group
 gidNumber: 3006
 
+dn: cn=mentors,ou=groups,o=sr
+objectClass: posixGroup
+cn: mentors
+memberUid: blueshirt
+description: mentors group
+gidNumber: 3007
