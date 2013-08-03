@@ -18,6 +18,13 @@ class User:
         self._user = srusers.user(username)
         if not self._user.in_db:
             raise Exception("user does not exist in database")
+        self._init()
+
+    def _init(self):
+        """
+        A method to init internal stuff in a way that is simple for child
+        classes to call, and doesn't require additional interactions with LDAP.
+        """
 
         # cache any groups we change, since searching the database for them
         # after our changes will yield very odd results.
@@ -130,6 +137,7 @@ class AuthenticatedUser(User):
         self._user = srusers.user(username)
         self._password = password
         self._viewable_users = set()
+        self._init()
 
     def can_register_users(self):
         return self.is_teacher or self.is_blueshirt
