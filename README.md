@@ -21,3 +21,10 @@ In the even that you're doing something else, you'll need to init the
 submodules: `git submodule update --init`, and an SR LDAP you can point at.
 The target database can be set by modifying the config of the srusers
 submodule, usually by adding a local.ini.
+
+##Tests
+
+Everything should have tests to ensure that it behaves suitably, and any
+new functionality should have tests to match. You should also ensure that
+the tests all pass for you before starting development, as otherwise you'll
+have a hard time figuring out what caused any breakages.
