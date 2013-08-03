@@ -32,7 +32,16 @@ def test_is_teacher_1():
 def test_is_teacher_2():
     assert User.create_user("teacher_coll1").is_teacher
 
+def test_is_teacher_3():
+    assert not User.create_user("blueshirt").is_teacher
+
 def test_is_blueshirt_1():
+    assert not User.create_user("student_coll2_1").is_blueshirt
+
+def test_is_blueshirt_2():
+    assert not User.create_user("teacher_coll1").is_blueshirt
+
+def test_is_blueshirt_3():
     assert User.create_user("blueshirt").is_blueshirt
 
 def test_user_equality():
