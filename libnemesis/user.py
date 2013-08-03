@@ -43,14 +43,20 @@ class User:
         self._user.sname = str(last_name)
 
     def set_team(self, new_team):
+        already_member = False
         for t in self.teams:
+            if t.name == new_team:
+                already_member = True
+                continue
             grp = srusers.group(t.name)
-            grp.user_rm(self.username)
-            self._modified_groups.add(grp)
+            if self.username in grp.members:
+                grp.user_rm(self.username)
+                self._modified_groups.add(grp)
 
-        new_grp = srusers.group(new_team)
-        new_grp.user_add(self.username)
-        self._modified_groups.add(new_grp)
+        if not already_member:
+            new_grp = srusers.group(new_team)
+            new_grp.user_add(self.username)
+            self._modified_groups.add(new_grp)
 
     @property
     def username(self):
