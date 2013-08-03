@@ -28,11 +28,11 @@ with open(start_file, 'r') as lines:
             dn = line[4:].strip()
             to_remove.append(dn)
 
-subprocess.check_call(['ldapdelete', '-x'
-                                   , '-h', host
-                                   , '-D', managerDn
-                                   , '-w', password
-                      ] + to_remove)
+subprocess.call(['ldapdelete', '-x'
+                             , '-h', host
+                             , '-D', managerDn
+                             , '-w', password
+                ] + to_remove)
 
 
 subprocess.check_call(['ldapadd', '-x'
