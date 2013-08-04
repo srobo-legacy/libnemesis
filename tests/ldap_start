@@ -1,0 +1,166 @@
+dn: uid=teacher_coll1,ou=users,o=sr
+uid: teacher_coll1
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+uidNumber: 2000
+gidNumber: 1999
+sn: teacher
+homeDirectory: /home/teacher_coll1
+mail: teacher@teacher.com
+cn: teacher
+userPassword:: e1NIQX04UmRYNjk1ZktGMDZuRXJwdy9KTHlSZk14Wnc9
+
+dn: uid=teacher_coll2,ou=users,o=sr
+uid: teacher_coll2
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+uidNumber: 2001
+gidNumber: 1999
+sn: teacher
+homeDirectory: /home/teacher_coll2
+cn: teacher2
+userPassword:: e1NIQX1iWXpZSk9uSWI1d2NRbExMTGYwejNDOVg2SlE9
+mail: mail@mail.com
+
+dn: uid=student_coll1_1,ou=users,o=sr
+uid: student_coll1_1
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+uidNumber: 2002
+gidNumber: 1999
+sn: student
+homeDirectory: /home/student_coll1_1
+mail: student1@teacher.com
+cn: student1
+userPassword:: e1NIQX1yaFRIN01PSDM5RllISzl6eXZDa0NTb2pzSFE9
+
+dn: uid=student_coll1_2,ou=users,o=sr
+uid: student_coll1_2
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+userPassword:: e1NIQX14YXpQUCtqMWFYeUZhc0RFT1RJVElRUHZyb289
+uidNumber: 2003
+gidNumber: 1999
+sn: student
+homeDirectory: /home/student_coll1_2
+mail: student2@teacher.com
+cn: student2
+
+dn: uid=student_coll2_1,ou=users,o=sr
+uid: student_coll2_1
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+userPassword:: e1NIQX1ZTnlxUi9EdTRaZjJaYmJraEJBbmV3WGR5WE09
+uidNumber: 2004
+gidNumber: 1999
+sn: student
+homeDirectory: /home/student_coll2_1
+cn: student3
+mail: sam@sam.com
+
+dn: uid=student_coll2_2,ou=users,o=sr
+uid: student_coll2_2
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+uidNumber: 2005
+gidNumber: 1999
+sn: student
+homeDirectory: /home/student_coll2_2
+cn: student4
+mail: sam@sam2518.com
+userPassword:: e1NIQX1NZmNVVlBHSEVQdWxmakFjSWZBMGY0VE84d0E9
+
+dn: uid=blueshirt,ou=users,o=sr
+uid: blueshirt
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+uidNumber: 2006
+gidNumber: 1999
+sn: Shirt
+homeDirectory: /home/blueshirt
+mail: blueshirt@srobo.org
+cn: Blue
+userPassword:: e1NIQX1KaWNITFBKcyswbXhpQUE4d2xBZEVxbXFpaTQ9
+
+dn: cn=college-1,ou=groups,o=sr
+objectClass: posixGroup
+cn: college-1
+memberUid: teacher_coll1
+memberUid: student_coll1_1
+memberUid: student_coll1_2
+memberUid: blueshirt
+description: college the first
+gidNumber: 3000
+
+dn: cn=college-2,ou=groups,o=sr
+objectClass: posixGroup
+cn: college-2
+memberUid: teacher_coll2
+memberUid: student_coll2_1
+memberUid: student_coll2_2
+description: secondary college
+gidNumber: 3001
+
+dn: cn=teachers,ou=groups,o=sr
+objectClass: posixGroup
+cn: teachers
+memberUid: teacher_coll1
+memberUid: teacher_coll2
+description: teachers group
+gidNumber: 3002
+
+dn: cn=students,ou=groups,o=sr
+objectClass: posixGroup
+cn: students
+memberUid: student_coll1_1
+memberUid: student_coll1_2
+memberUid: student_coll2_1
+memberUid: student_coll2_2
+description: students group
+gidNumber: 3003
+
+dn: cn=team-ABC,ou=groups,o=sr
+objectClass: posixGroup
+cn: team-ABC
+memberUid: teacher_coll1
+memberUid: student_coll1_1
+description: team-ABC group
+gidNumber: 3004
+
+dn: cn=team-DFE,ou=groups,o=sr
+objectClass: posixGroup
+cn: team-DFE
+memberUid: teacher_coll1
+memberUid: student_coll1_2
+description: team-DFE group
+gidNumber: 3005
+
+dn: cn=team-QWZ,ou=groups,o=sr
+objectClass: posixGroup
+cn: team-QWZ
+memberUid: teacher_coll2
+memberUid: student_coll2_1
+memberUid: student_coll2_2
+description: team-QWZ group
+gidNumber: 3006
+
+dn: cn=mentors,ou=groups,o=sr
+objectClass: posixGroup
+cn: mentors
+memberUid: blueshirt
+description: mentors group
+gidNumber: 3007

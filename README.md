@@ -28,3 +28,14 @@ Everything should have tests to ensure that it behaves suitably, and any
 new functionality should have tests to match. You should also ensure that
 the tests all pass for you before starting development, as otherwise you'll
 have a hard time figuring out what caused any breakages.
+
+The tests can be run via the `run-tests` script in the root of the repo.
+This will clear the configured LDAP of any entries that are needed for the
+tests, and then create them with the expected value.
+
+The reset is achieved by the `tests/reset_ldap.py` script, which uses the
+ `tests/start_ldap` file as a basis for the tests' expectations.
+If you need any other items to be in the database for simple testing,
+ this is where they should be added.
+Tests which need to modify items should create them on the fly to ensure
+that other tests can still rely on this base environment.
