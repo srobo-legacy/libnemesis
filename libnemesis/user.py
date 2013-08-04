@@ -2,7 +2,7 @@ import srusers
 from team import *
 from college import *
 
-class User:
+class User(object):
     @classmethod
     def create_user(cls, username, password=None):
         if User.can_authenticate(username, password):
@@ -18,13 +18,6 @@ class User:
         self._user = srusers.user(username)
         if not self._user.in_db:
             raise Exception("user does not exist in database")
-        self._init()
-
-    def _init(self):
-        """
-        A method to init internal stuff in a way that is simple for child
-        classes to call, and doesn't require additional interactions with LDAP.
-        """
 
         # cache any groups we change, since searching the database for them
         # after our changes will yield very odd results.
@@ -153,12 +146,17 @@ class User:
 
 class AuthenticatedUser(User):
     def __init__(self, username, password):
-        self._user = srusers.user(username)
-        assert self._user.bind(password)
-        self._user = srusers.user(username)
+        # check their password
+        user = srusers.user(username)
+        assert user.bind(password)
+
+        # Call parent init, which will, among other things, ensure that the
+        # LDAP binding goes back to being via the manager credential, not the
+        # one we just checked above.
+        super(AuthenticatedUser, self).__init__(username)
+
         self._password = password
         self._viewable_users = set()
-        self._init()
 
     def can_register_users(self):
         return self.is_teacher or self.is_blueshirt
