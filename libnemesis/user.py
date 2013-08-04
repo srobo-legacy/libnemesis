@@ -114,10 +114,24 @@ class User:
 
         return self._can_administrate(other_user_or_username)
 
+    def manages_team(self, team_or_team_name):
+        # if it's a string get an internal representation
+        if isinstance(team_or_team_name, basestring):
+            if not Team.valid_team_name(team_or_team_name):
+                # raise?
+                return False
+            else:
+                team_or_team_name = Team(team_or_team_name)
+
+        return self._manages_team(team_or_team_name)
+
     def _valid_team_groups(self):
         return [Team(g) for g in self._user.groups() if Team.valid_team_name(g)]
 
     def _can_administrate(self, user_object):
+        return False
+
+    def _manages_team(self, team_object):
         return False
 
     def __eq__(self, other):
@@ -164,6 +178,9 @@ class AuthenticatedUser(User):
                 if user == user_object:
                     return True
         return False
+
+    def _manages_team(self, team_object):
+        return self.is_teacher and team_object in self.teams
 
     def _setup_viewable_users(self):
         if len(self._viewable_users) == 0:
