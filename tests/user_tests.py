@@ -146,3 +146,47 @@ def test_self_can_see_email():
     d = u2.details_dictionary_for(u)
     assert "email" in d
 
+def test_manages_team_blueshirt_1():
+    """Blueshirts don't manage teams"""
+    u = User.create_user("blueshirt", "blueshirt")
+    assert not any([u.manages_team(t) for t in u.teams])
+
+def test_manages_team_blueshirt_2():
+    """Blueshirts don't manage teams (by name)"""
+    u = User.create_user("blueshirt", "blueshirt")
+    assert not any([u.manages_team(t.name) for t in u.teams])
+
+def test_manages_team_student_1():
+    """Students don't manage teams"""
+    u = User.create_user("student_coll1_1", "cows")
+    assert not any([u.manages_team(t) for t in u.teams])
+
+def test_manages_team_student_2():
+    """Students don't manage teams (by name)"""
+    u = User.create_user("student_coll1_1", "cows")
+    assert not any([u.manages_team(t.name) for t in u.teams])
+
+def test_manages_team_teacher_1():
+    """Teachers manage all teams they are in"""
+    u = User.create_user("teacher_coll1", "facebees")
+    assert all([u.manages_team(t) for t in u.teams])
+
+def test_manages_team_teacher_2():
+    """Teachers manage all teams they are in (by name)"""
+    u = User.create_user("teacher_coll1", "facebees")
+    assert all([u.manages_team(t.name) for t in u.teams])
+
+def test_manages_team_teacher_3():
+    """Teachers can't manage teams they're not in"""
+    u = User.create_user("teacher_coll2", "noway")
+    assert not any([u.manages_team(t) for t in ['team-ABC', 'team-DFE']])
+
+def test_manages_team_teacher_4():
+    """Teachers can't manage teams they're not in (by name)"""
+    u = User.create_user("teacher_coll2", "noway")
+    assert not any([u.manages_team(t) for t in ['team-ABC', 'team-DFE']])
+
+def test_manages_team_not_authed():
+    """Teachers can't manage teams they're not in (by name)"""
+    u = User.create_user("teacher_coll1")
+    assert not any([u.manages_team(t) for t in u.teams])

@@ -2,7 +2,7 @@ import srusers
 from team import *
 from college import *
 
-class User:
+class User(object):
     @classmethod
     def create_user(cls, username, password=None):
         if User.can_authenticate(username, password):
@@ -19,6 +19,10 @@ class User:
         if not self._user.in_db:
             raise Exception("user does not exist in database")
 
+        # cache any groups we change, since searching the database for them
+        # after our changes will yield very odd results.
+        self._modified_groups = set()
+
     def set_password(self, password):
         self._user.set_passwd(old=None, new=password)
 
@@ -30,6 +34,22 @@ class User:
 
     def set_last_name(self, last_name):
         self._user.sname = str(last_name)
+
+    def set_team(self, new_team):
+        already_member = False
+        for t in self.teams:
+            if t.name == new_team:
+                already_member = True
+                continue
+            grp = srusers.group(t.name)
+            if self.username in grp.members:
+                grp.user_rm(self.username)
+                self._modified_groups.add(grp)
+
+        if not already_member:
+            new_grp = srusers.group(new_team)
+            new_grp.user_add(self.username)
+            self._modified_groups.add(new_grp)
 
     @property
     def username(self):
@@ -48,6 +68,7 @@ class User:
                 "username":self.username,
                 "first_name":self._user.cname,
                 "last_name":self._user.sname,
+                "teams":[x.name for x in self.teams],
                 "colleges":[x.group_name for x in self.colleges]
                 }
 
@@ -86,10 +107,24 @@ class User:
 
         return self._can_administrate(other_user_or_username)
 
+    def manages_team(self, team_or_team_name):
+        # if it's a string get an internal representation
+        if isinstance(team_or_team_name, basestring):
+            if not Team.valid_team_name(team_or_team_name):
+                # raise?
+                return False
+            else:
+                team_or_team_name = Team(team_or_team_name)
+
+        return self._manages_team(team_or_team_name)
+
     def _valid_team_groups(self):
         return [Team(g) for g in self._user.groups() if Team.valid_team_name(g)]
 
     def _can_administrate(self, user_object):
+        return False
+
+    def _manages_team(self, team_object):
         return False
 
     def __eq__(self, other):
@@ -106,12 +141,20 @@ class User:
 
     def save(self):
         self._user.save()
+        for g in self._modified_groups:
+            g.save()
 
 class AuthenticatedUser(User):
     def __init__(self, username, password):
-        self._user = srusers.user(username)
-        assert self._user.bind(password)
-        self._user = srusers.user(username)
+        # check their password
+        user = srusers.user(username)
+        assert user.bind(password)
+
+        # Call parent init, which will, among other things, ensure that the
+        # LDAP binding goes back to being via the manager credential, not the
+        # one we just checked above.
+        super(AuthenticatedUser, self).__init__(username)
+
         self._password = password
         self._viewable_users = set()
 
@@ -133,6 +176,9 @@ class AuthenticatedUser(User):
                 if user == user_object:
                     return True
         return False
+
+    def _manages_team(self, team_object):
+        return self.is_teacher and team_object in self.teams
 
     def _setup_viewable_users(self):
         if len(self._viewable_users) == 0:
