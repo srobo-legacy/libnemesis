@@ -62,12 +62,20 @@ class User(object):
     def email(self):
         return self._user.email
 
+    @property
+    def first_name(self):
+        return self._user.cname
+
+    @property
+    def last_name(self):
+        return self._user.sname
+
     def details_dictionary_for(self, other):
         assert other.can_administrate(self)
         build =  {
                 "username":self.username,
-                "first_name":self._user.cname,
-                "last_name":self._user.sname,
+                "first_name":self.first_name,
+                "last_name":self.last_name,
                 "teams":[x.name for x in self.teams],
                 "colleges":[x.group_name for x in self.colleges]
                 }
