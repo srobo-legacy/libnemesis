@@ -53,21 +53,32 @@ class User(object):
     def set_last_name(self, last_name):
         self._user.sname = str(last_name)
 
-    def set_team(self, new_team):
+    def _set_group(self, new_group, current_groups):
+        """
+        Helper method to change ownership from a possible collection of
+        groups to a single other group.
+        """
         already_member = False
-        for t in self.teams:
-            if t.name == new_team:
+        for gname in current_groups:
+            if gname == new_group:
                 already_member = True
                 continue
-            grp = srusers.group(t.name)
+            grp = srusers.group(gname)
             if self.username in grp.members:
                 grp.user_rm(self.username)
                 self._modified_groups.add(grp)
 
         if not already_member:
-            new_grp = srusers.group(new_team)
+            new_grp = srusers.group(new_group)
             new_grp.user_add(self.username)
             self._modified_groups.add(new_grp)
+
+    def set_team(self, new_team):
+        current = [t.name for t in self.teams]
+        self._set_group(new_team, current)
+
+    def set_college(self, new_college):
+        self._set_group(new_college, self.colleges)
 
     @property
     def username(self):
