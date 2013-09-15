@@ -11,6 +11,22 @@ class User(object):
             return User(username)
 
     @classmethod
+    def create_new_user(cls, requesting_user, college, first_name, last_name):
+        if not requesting_user.can_register_users():
+            raise Exception("requesting user is not permitted to create new users")
+
+        if not college in requesting_user.colleges:
+            raise Exception("requesting user is not in the requested college")
+
+        username = srusers.new_username(college, first_name, last_name)
+        u = srusers.user(username)
+        u.cname = first_name
+        u.sname = last_name
+        u.email = ''
+        u.save()
+        return User(username)
+
+    @classmethod
     def can_authenticate(cls, username, password):
         return password is not None and srusers.user(username).bind(password)
 

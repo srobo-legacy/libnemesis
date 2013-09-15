@@ -1,4 +1,14 @@
+
+from nose.tools import raises, with_setup
+
 from libnemesis import *
+
+def remove_user(name):
+    def helper():
+        u = srusers.user(name)
+        if u.in_db:
+            u.delete()
+    return helper
 
 def test_can_make_user():
     User.create_user("teacher_coll1")
@@ -9,6 +19,49 @@ def test_nonexistant_user_raises():
         assert False
     except:
         pass
+
+def check_new_user(u):
+    assert u.username == '1_fl1'
+    assert u.first_name == 'first'
+    assert u.last_name == 'last'
+    assert u.email == ''
+    assert not u.is_blueshirt
+    assert not u.is_teacher
+    colleges = set(u.colleges)
+    assert colleges == set()
+    teams = set(u.teams)
+    assert teams == set()
+
+@with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
+def test_new_user():
+    ru = User.create_user("teacher_coll1", "facebees")
+    u = User.create_new_user(ru, 'college-1', 'first', 'last')
+    check_new_user(u)
+
+@with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
+def test_new_user_made():
+    ru = User.create_user("teacher_coll1", "facebees")
+    u = User.create_new_user(ru, 'college-1', 'first', 'last')
+    u = User.create_user(u.username)
+    check_new_user(u)
+
+@with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
+@raises(Exception)
+def test_new_user_not_authed():
+    ru = User.create_user("teacher_coll1")
+    User.create_new_user(ru, 'college-1', 'first', 'last')
+
+@with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
+@raises(Exception)
+def test_new_user_not_allowed():
+    ru = User.create_user("student_coll1_1", "cows")
+    User.create_new_user(ru, 'college-1', 'first', 'last')
+
+@with_setup(remove_user('2_fl1'), remove_user('2_fl1'))
+@raises(Exception)
+def test_new_user_wrong_college():
+    ru = User.create_user("teacher_coll1", "facebees")
+    User.create_new_user(ru, 'college-2', 'first', 'last')
 
 def test_user_teams():
     team_names = [team.name for team in User.create_user("student_coll1_1").teams]
