@@ -80,6 +80,12 @@ class User(object):
     def set_college(self, new_college):
         self._set_group(new_college, self.colleges)
 
+    def make_student(self):
+        self._set_group('students', ['teachers'])
+
+    def make_teacher(self):
+        self._set_group('teachers', ['students'])
+
     @property
     def username(self):
         return self._user.username
