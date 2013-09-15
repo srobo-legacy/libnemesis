@@ -18,8 +18,10 @@ class User(object):
         if not college in requesting_user.colleges:
             raise Exception("requesting user is not in the requested college")
 
+        first_name = str(first_name)
+        last_name = str(last_name)
         username = srusers.new_username(college, first_name, last_name)
-        u = srusers.user(username)
+        u = srusers.user(str(username))
         u.cname = first_name
         u.sname = last_name
         u.email = ''

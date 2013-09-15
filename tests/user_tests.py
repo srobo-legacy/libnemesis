@@ -39,6 +39,12 @@ def test_new_user():
     check_new_user(u)
 
 @with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
+def test_new_user_unicode():
+    ru = User.create_user("teacher_coll1", "facebees")
+    u = User.create_new_user(ru, u'college-1', u'first', u'last')
+    check_new_user(u)
+
+@with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
 def test_new_user_made():
     ru = User.create_user("teacher_coll1", "facebees")
     u = User.create_new_user(ru, 'college-1', 'first', 'last')
