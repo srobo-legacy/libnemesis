@@ -13,10 +13,10 @@ class User(object):
     @classmethod
     def create_new_user(cls, requesting_user, college, first_name, last_name):
         if not requesting_user.can_register_users():
-            raise Exception("requesting user is not permitted to create new users")
+            raise Exception("requesting user '%s' is not permitted to create new users" % (username))
 
         if not college in requesting_user.colleges:
-            raise Exception("requesting user is not in the requested college")
+            raise Exception("requesting user '%s' is not in the requested college '%s'" % (username, college))
 
         first_name = str(first_name)
         last_name = str(last_name)
@@ -35,7 +35,7 @@ class User(object):
     def __init__(self, username):
         self._user = srusers.user(username)
         if not self._user.in_db:
-            raise Exception("user does not exist in database")
+            raise Exception("user '%s' does not exist in database" % (username))
 
         # cache any groups we change, since searching the database for them
         # after our changes will yield very odd results.
