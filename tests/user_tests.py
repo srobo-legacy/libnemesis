@@ -32,6 +32,30 @@ def check_new_user(u):
     teams = set(u.teams)
     assert teams == set()
 
+def test_email_used():
+    used = User.email_used('student1@teacher.com')
+    assert used
+
+def test_email_not_used():
+    used = User.email_used('nope@srobo.org')
+    assert used == False
+
+def test_wildcard_email_not_used():
+    used = User.email_used('*')
+    assert used == False
+
+def test_name_used():
+    used = User.name_used('student1', 'student')
+    assert used
+
+def test_name_not_used():
+    used = User.name_used('John', 'Smith')
+    assert used == False
+
+def test_wildcard_name_not_used():
+    used = User.name_used('student*', 'student')
+    assert used == False
+
 @with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
 def test_new_user():
     ru = User.create_user("teacher_coll1", "facebees")

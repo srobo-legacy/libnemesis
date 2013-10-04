@@ -1,3 +1,6 @@
+
+import ldap.filter
+
 import srusers
 from team import *
 from college import *
@@ -9,6 +12,19 @@ class User(object):
             return AuthenticatedUser(username, password)
         else:
             return User(username)
+
+    @classmethod
+    def email_used(cls, email):
+        email = ldap.filter.escape_filter_chars(email)
+        userids = srusers.user.search(email = email)
+        return len(userids) > 0
+
+    @classmethod
+    def name_used(cls, first_name, last_name):
+        first_name = ldap.filter.escape_filter_chars(first_name)
+        last_name = ldap.filter.escape_filter_chars(last_name)
+        userids = srusers.user.search(cname = first_name, sname = last_name)
+        return len(userids) > 0
 
     @classmethod
     def create_new_user(cls, requesting_user, college, first_name, last_name):
