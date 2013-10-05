@@ -76,22 +76,32 @@ def test_new_user_made():
     check_new_user(u)
 
 @with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
-@raises(Exception)
 def test_new_user_not_authed():
-    ru = User.create_user("teacher_coll1")
-    User.create_new_user(ru, 'college-1', 'first', 'last')
+    try:
+        ru = User.create_user("teacher_coll1")
+        User.create_new_user(ru, 'college-1', 'first', 'last')
+        assert False
+    except Exception as e:
+        assert "teacher_coll1" in e.message
 
 @with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
-@raises(Exception)
 def test_new_user_not_allowed():
-    ru = User.create_user("student_coll1_1", "cows")
-    User.create_new_user(ru, 'college-1', 'first', 'last')
+    try:
+        ru = User.create_user("student_coll1_1", "cows")
+        User.create_new_user(ru, 'college-1', 'first', 'last')
+        assert False
+    except Exception as e:
+        assert "student_coll1_1" in e.message
 
 @with_setup(remove_user('2_fl1'), remove_user('2_fl1'))
-@raises(Exception)
 def test_new_user_wrong_college():
-    ru = User.create_user("teacher_coll1", "facebees")
-    User.create_new_user(ru, 'college-2', 'first', 'last')
+    try:
+        ru = User.create_user("teacher_coll1", "facebees")
+        User.create_new_user(ru, 'college-2', 'first', 'last')
+        assert False
+    except Exception as e:
+        assert "teacher_coll1" in e.message
+        assert 'college-2' in e.message
 
 def test_user_teams():
     team_names = [team.name for team in User.create_user("student_coll1_1").teams]

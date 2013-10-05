@@ -29,10 +29,10 @@ class User(object):
     @classmethod
     def create_new_user(cls, requesting_user, college, first_name, last_name):
         if not requesting_user.can_register_users():
-            raise Exception("requesting user '%s' is not permitted to create new users" % (username))
+            raise Exception("requesting user '%s' is not permitted to create new users" % (requesting_user.username))
 
         if not college in requesting_user.colleges:
-            raise Exception("requesting user '%s' is not in the requested college '%s'" % (username, college))
+            raise Exception("requesting user '%s' is not in the requested college '%s'" % (requesting_user.username, college))
 
         first_name = str(first_name)
         last_name = str(last_name)
