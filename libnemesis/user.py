@@ -204,6 +204,13 @@ class User(object):
         for g in self._modified_groups:
             g.save()
 
+    def delete(self):
+        for gid in self._user.groups():
+            g = srusers.group(gid)
+            g.user_rm(self.username)
+            g.save()
+        self._user.delete()
+
 class AuthenticatedUser(User):
     def __init__(self, username, password):
         # check their password

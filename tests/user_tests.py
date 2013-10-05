@@ -56,6 +56,29 @@ def test_wildcard_name_not_used():
     used = User.name_used('student*', 'student')
     assert used == False
 
+@with_setup(remove_user('to-be-deleted'), remove_user('to-be-deleted'))
+def test_delete_user():
+    username = 'to-be-deleted'
+    sru = srusers.user(username)
+    sru.cname = 'to-be'
+    sru.sname = 'deleted'
+    sru.email = ''
+    sru.save()
+    for gid in ['students', 'team-ABC', 'college-1']:
+        g = srusers.group(gid)
+        g.user_add(sru)
+        g.save()
+
+    u = User(username)
+    u.delete()
+
+    sru = srusers.user(username)
+    assert not sru.in_db
+
+    for gid in ['students', 'team-ABC', 'college-1']:
+        g = srusers.group(gid)
+        assert not username in g.members
+
 @with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
 def test_new_user():
     ru = User.create_user("teacher_coll1", "facebees")
