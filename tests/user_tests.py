@@ -137,6 +137,34 @@ def test_is_blueshirt_2():
 def test_is_blueshirt_3():
     assert User.create_user("blueshirt").is_blueshirt
 
+def test_can_null_user_register_users():
+    nu = NullUser()
+    assert not nu.can_register_users
+
+def test_can_plain_student_user_register_users():
+    u = User.create_user('student_coll1_1')
+    assert not u.can_register_users
+
+def test_can_plain_teacher_user_register_users():
+    u = User.create_user('teacher_coll1')
+    assert not u.can_register_users
+
+def test_can_plain_blueshirt_user_register_users():
+    u = User.create_user('blueshirt')
+    assert not u.can_register_users
+
+def test_can_authed_student_user_register_users():
+    u = User.create_user('student_coll1_1', 'cows')
+    assert not u.can_register_users
+
+def test_can_authed_teacher_user_register_users():
+    u = User.create_user('teacher_coll1', 'facebees')
+    assert u.can_register_users == True
+
+def test_can_authed_blueshirt_user_register_users():
+    u = User.create_user('blueshirt', 'blueshirt')
+    assert u.can_register_users == True
+
 def test_user_equality():
     a = User.create_user("teacher_coll1")
     b = User.create_user("teacher_coll1")

@@ -28,7 +28,7 @@ class User(object):
 
     @classmethod
     def create_new_user(cls, requesting_user, college, first_name, last_name):
-        if not requesting_user.can_register_users():
+        if not requesting_user.can_register_users:
             raise Exception("requesting user '%s' is not permitted to create new users" % (requesting_user.username))
 
         if not college in requesting_user.colleges:
@@ -152,6 +152,7 @@ class User(object):
     def is_teacher(self):
         return "teachers" in self._user.groups()
 
+    @property
     def can_register_users(self):
         return False
 
@@ -217,6 +218,7 @@ class AuthenticatedUser(User):
         self._password = password
         self._viewable_users = set()
 
+    @property
     def can_register_users(self):
         return self.is_teacher or self.is_blueshirt
 
