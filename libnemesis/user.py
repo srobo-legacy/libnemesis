@@ -130,6 +130,7 @@ class User(object):
                 "is_blueshirt":self.is_blueshirt,
                 "is_student":self.is_student,
                 "is_team_leader":self.is_teacher,
+                "has_withdrawn":self.has_withdrawn,
                 "teams":[x.name for x in self.teams],
                 "colleges":[x.group_name for x in self.colleges]
                 }
@@ -150,6 +151,9 @@ class User(object):
         return [College(g) for g in self._user.groups()\
                 if College.is_valid_college_name(g)]
 
+    @property
+    def has_withdrawn(self):
+        return "withdrawn" in self._user.groups()
 
     @property
     def is_student(self):

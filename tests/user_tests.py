@@ -62,6 +62,45 @@ def test_wildcard_name_not_used():
     used = User.name_used('student*', 'student')
     assert used == False
 
+def test_withdrawn_false_1():
+    u = User.create_user("student_coll1_1")
+    assert not u.has_withdrawn
+
+def test_withdrawn_false_2():
+    u = User.create_user("student_coll1_1", "cows")
+    data = u.details_dictionary_for(u)
+    assert not data['has_withdrawn']
+
+def create_withdrawn(username):
+    sru = srusers.user(username)
+    sru.cname = 'to'
+    sru.sname = 'withdraw'
+    sru.email = ''
+    sru.save()
+    g = srusers.group('withdrawn')
+    g.user_add(sru)
+    g.save()
+    return sru
+
+@with_setup(remove_user('to-withdraw'), remove_user('to-withdraw'))
+def test_withdrawn_true_1():
+    username = 'to-withdraw'
+    create_withdrawn(username)
+
+    u = User.create_user(username)
+    assert u.has_withdrawn
+
+@with_setup(remove_user('to-withdraw'), remove_user('to-withdraw'))
+def test_withdrawn_true_2():
+    username = 'to-withdraw'
+    sru = create_withdrawn(username)
+    password = 'bees'
+    sru.set_passwd(new = password)
+
+    u = User.create_user(username, password)
+    data = u.details_dictionary_for(u)
+    assert data['has_withdrawn']
+
 @with_setup(remove_user('to-be-deleted'), remove_user('to-be-deleted'))
 def test_delete_user():
     username = 'to-be-deleted'
