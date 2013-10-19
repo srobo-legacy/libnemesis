@@ -101,6 +101,45 @@ def test_withdrawn_true_2():
     data = u.details_dictionary_for(u)
     assert data['has_withdrawn']
 
+def test_media_consent_false_1():
+    u = User.create_user("student_coll1_1")
+    assert not u.has_media_consent
+
+def test_media_consent_false_2():
+    u = User.create_user("student_coll1_1", "cows")
+    data = u.details_dictionary_for(u)
+    assert not data['has_media_consent']
+
+def create_media_consent(username):
+    sru = srusers.user(username)
+    sru.cname = 'to'
+    sru.sname = 'consent'
+    sru.email = ''
+    sru.save()
+    g = srusers.group('media-consent')
+    g.user_add(sru)
+    g.save()
+    return sru
+
+@with_setup(remove_user('to-consent'), remove_user('to-consent'))
+def test_media_consent_true_1():
+    username = 'to-consent'
+    create_media_consent(username)
+
+    u = User.create_user(username)
+    assert u.has_media_consent
+
+@with_setup(remove_user('to-consent'), remove_user('to-consent'))
+def test_media_consent_true_2():
+    username = 'to-consent'
+    sru = create_media_consent(username)
+    password = 'bees'
+    sru.set_passwd(new = password)
+
+    u = User.create_user(username, password)
+    data = u.details_dictionary_for(u)
+    assert data['has_media_consent']
+
 @with_setup(remove_user('to-be-deleted'), remove_user('to-be-deleted'))
 def test_delete_user():
     username = 'to-be-deleted'

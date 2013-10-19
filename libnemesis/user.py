@@ -131,6 +131,7 @@ class User(object):
                 "is_student":self.is_student,
                 "is_team_leader":self.is_teacher,
                 "has_withdrawn":self.has_withdrawn,
+                "has_media_consent":self.has_media_consent,
                 "teams":[x.name for x in self.teams],
                 "colleges":[x.group_name for x in self.colleges]
                 }
@@ -150,6 +151,10 @@ class User(object):
     def colleges(self):
         return [College(g) for g in self._user.groups()\
                 if College.is_valid_college_name(g)]
+
+    @property
+    def has_media_consent(self):
+        return "media-consent" in self._user.groups()
 
     @property
     def has_withdrawn(self):
