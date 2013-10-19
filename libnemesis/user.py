@@ -160,6 +160,9 @@ class User(object):
     def has_withdrawn(self):
         return "withdrawn" in self._user.groups()
 
+    def withdraw(self):
+        self._set_group('withdrawn', [])
+
     @property
     def is_student(self):
         return "students" in self._user.groups()

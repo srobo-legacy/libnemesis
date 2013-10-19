@@ -62,6 +62,21 @@ def test_wildcard_name_not_used():
     used = User.name_used('student*', 'student')
     assert used == False
 
+@with_setup(remove_user('to-withdraw'), remove_user('to-withdraw'))
+def test_withdrawal():
+    username = 'to-withdraw'
+    sru = srusers.user(username)
+    sru.cname = 'to'
+    sru.sname = 'withdraw'
+    sru.email = ''
+    sru.save()
+
+    u = User.create_user(username)
+    assert not u.has_withdrawn
+    u.withdraw()
+    u.save()
+    assert u.has_withdrawn
+
 def test_withdrawn_false_1():
     u = User.create_user("student_coll1_1")
     assert not u.has_withdrawn
