@@ -9,7 +9,7 @@ def remove_user(name):
         if u.in_db:
             for gid in u.groups():
                 g = srusers.group(gid)
-                g.user_rm(self.username)
+                g.user_rm(name)
                 g.save()
             u.delete()
 
