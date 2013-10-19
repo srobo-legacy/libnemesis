@@ -26,6 +26,7 @@ def check_new_user(u):
     assert u.last_name == 'last'
     assert u.email == ''
     assert not u.is_blueshirt
+    assert not u.is_student
     assert not u.is_teacher
     colleges = set(u.colleges)
     assert colleges == set()
@@ -151,6 +152,15 @@ def test_is_teacher_2():
 def test_is_teacher_3():
     assert not User.create_user("blueshirt").is_teacher
 
+def test_is_student_1():
+    assert User.create_user("student_coll2_1").is_student
+
+def test_is_student_2():
+    assert not User.create_user("teacher_coll1").is_student
+
+def test_is_student_3():
+    assert not User.create_user("blueshirt").is_student
+
 def test_is_blueshirt_1():
     assert not User.create_user("student_coll2_1").is_blueshirt
 
@@ -265,6 +275,30 @@ def test_authed_teachers_cant_see_blueshirt():
     a = User.create_user("blueshirt")
 
     assert not any([u.can_administrate(a) for u in users])
+
+def test_user_properties_blueshirt():
+    u = User.create_user("blueshirt", "blueshirt")
+    data = u.details_dictionary_for(u)
+
+    assert data['is_blueshirt']
+    assert not data['is_student']
+    assert not data['is_team_leader']
+
+def test_user_properties_student():
+    u = User.create_user("student_coll1_1", "cows")
+    data = u.details_dictionary_for(u)
+
+    assert data['is_student']
+    assert not data['is_team_leader']
+    assert not data['is_blueshirt']
+
+def test_user_properties_team_leader():
+    u = User.create_user("teacher_coll2", "noway")
+    data = u.details_dictionary_for(u)
+
+    assert data['is_team_leader']
+    assert not data['is_student']
+    assert not data['is_blueshirt']
 
 def test_set_password():
     u = User.create_user("teacher_coll1", "facebees")

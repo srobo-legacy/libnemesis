@@ -127,6 +127,9 @@ class User(object):
                 "username":self.username,
                 "first_name":self.first_name,
                 "last_name":self.last_name,
+                "is_blueshirt":self.is_blueshirt,
+                "is_student":self.is_student,
+                "is_team_leader":self.is_teacher,
                 "teams":[x.name for x in self.teams],
                 "colleges":[x.group_name for x in self.colleges]
                 }
@@ -147,6 +150,10 @@ class User(object):
         return [College(g) for g in self._user.groups()\
                 if College.is_valid_college_name(g)]
 
+
+    @property
+    def is_student(self):
+        return "students" in self._user.groups()
 
     @property
     def is_teacher(self):
