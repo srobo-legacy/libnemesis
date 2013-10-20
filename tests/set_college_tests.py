@@ -9,7 +9,7 @@ NEW_COLLEGE_NAME = 'college-STB'
 def setUp():
     # Create a temp user & colleges
     sru = srusers.user('st_user1')
-    sru.email = 'st_user1@nowhere.net'
+    sru.email = 'st_user1@example.com'
     sru.cname = 'steve'
     sru.sname = 'user1'
     sru.save()

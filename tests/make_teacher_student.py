@@ -6,7 +6,7 @@ from libnemesis import *
 def my_setUp():
     # Create a temp user
     sru = srusers.user('st_user1')
-    sru.email = 'st_user1@nowhere.net'
+    sru.email = 'st_user1@example.com'
     sru.cname = 'steve'
     sru.sname = 'user1'
     sru.save()

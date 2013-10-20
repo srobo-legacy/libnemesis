@@ -39,7 +39,7 @@ def check_new_user(u):
     assert teams == set()
 
 def test_email_used():
-    used = User.email_used('student1@teacher.com')
+    used = User.email_used('student1@example.com')
     assert used
 
 def test_email_not_used():

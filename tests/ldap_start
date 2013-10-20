@@ -8,7 +8,7 @@ uidNumber: 2000
 gidNumber: 1999
 sn: teacher
 homeDirectory: /home/teacher_coll1
-mail: teacher@teacher.com
+mail: teacher1@example.com
 cn: teacher
 userPassword:: e1NIQX04UmRYNjk1ZktGMDZuRXJwdy9KTHlSZk14Wnc9
 
@@ -24,7 +24,7 @@ sn: teacher
 homeDirectory: /home/teacher_coll2
 cn: teacher2
 userPassword:: e1NIQX1iWXpZSk9uSWI1d2NRbExMTGYwejNDOVg2SlE9
-mail: mail@mail.com
+mail: teacher2@example.com
 
 dn: uid=student_coll1_1,ou=users,o=sr
 uid: student_coll1_1
@@ -36,7 +36,7 @@ uidNumber: 2002
 gidNumber: 1999
 sn: student
 homeDirectory: /home/student_coll1_1
-mail: student1@teacher.com
+mail: student1@example.com
 cn: student1
 userPassword:: e1NIQX1yaFRIN01PSDM5RllISzl6eXZDa0NTb2pzSFE9
 
@@ -51,7 +51,7 @@ uidNumber: 2003
 gidNumber: 1999
 sn: student
 homeDirectory: /home/student_coll1_2
-mail: student2@teacher.com
+mail: student2@example.com
 cn: student2
 
 dn: uid=student_coll2_1,ou=users,o=sr
@@ -66,7 +66,7 @@ gidNumber: 1999
 sn: student
 homeDirectory: /home/student_coll2_1
 cn: student3
-mail: sam@sam.com
+mail: sam3@example.com
 
 dn: uid=student_coll2_2,ou=users,o=sr
 uid: student_coll2_2
@@ -79,7 +79,7 @@ gidNumber: 1999
 sn: student
 homeDirectory: /home/student_coll2_2
 cn: student4
-mail: sam@sam2518.com
+mail: sam4@example.com
 userPassword:: e1NIQX1NZmNVVlBHSEVQdWxmakFjSWZBMGY0VE84d0E9
 
 dn: uid=blueshirt,ou=users,o=sr
@@ -92,7 +92,7 @@ uidNumber: 2006
 gidNumber: 1999
 sn: Shirt
 homeDirectory: /home/blueshirt
-mail: blueshirt@srobo.org
+mail: blueshirt@example.com
 cn: Blue
 userPassword:: e1NIQX1KaWNITFBKcyswbXhpQUE4d2xBZEVxbXFpaTQ9
 
