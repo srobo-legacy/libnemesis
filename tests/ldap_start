@@ -164,3 +164,10 @@ cn: mentors
 memberUid: blueshirt
 description: mentors group
 gidNumber: 3007
+
+dn: cn=withdrawn,ou=groups,o=sr
+objectClass: posixGroup
+cn: withdrawn
+memberUid: withdrawn
+description: withdrawn group
+gidNumber: 3008
