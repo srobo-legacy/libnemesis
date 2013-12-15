@@ -96,6 +96,20 @@ mail: blueshirt@example.com
 cn: Blue
 userPassword:: e1NIQX1KaWNITFBKcyswbXhpQUE4d2xBZEVxbXFpaTQ9
 
+dn: uid=withdrawn_student,ou=users,o=sr
+uid: withdrawn_student
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+uidNumber: 2007
+gidNumber: 1999
+sn: Student
+homeDirectory: /home/withdrawn_student
+cn: Withdrawn
+mail: no-more-taking-part@example.com
+userPassword:: e1NIQX1yaFRIN01PSDM5RllISzl6eXZDa0NTb2pzSFE9
+
 dn: cn=college-1,ou=groups,o=sr
 objectClass: posixGroup
 cn: college-1
@@ -103,6 +117,7 @@ memberUid: teacher_coll1
 memberUid: student_coll1_1
 memberUid: student_coll1_2
 memberUid: blueshirt
+memberUid: withdrawn_student
 description: college the first
 gidNumber: 3000
 
@@ -130,6 +145,7 @@ memberUid: student_coll1_1
 memberUid: student_coll1_2
 memberUid: student_coll2_1
 memberUid: student_coll2_2
+memberUid: withdrawn_student
 description: students group
 gidNumber: 3003
 
@@ -138,6 +154,7 @@ objectClass: posixGroup
 cn: team-ABC
 memberUid: teacher_coll1
 memberUid: student_coll1_1
+memberUid: withdrawn_student
 description: team-ABC group
 gidNumber: 3004
 
@@ -168,6 +185,6 @@ gidNumber: 3007
 dn: cn=withdrawn,ou=groups,o=sr
 objectClass: posixGroup
 cn: withdrawn
-memberUid: withdrawn
+memberUid: withdrawn_student
 description: withdrawn group
 gidNumber: 3008
