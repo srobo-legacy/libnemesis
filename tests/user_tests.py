@@ -466,3 +466,16 @@ def test_manages_team_not_authed():
     """Teachers can't manage teams they're not in (by name)"""
     u = User.create_user("teacher_coll1")
     assert not any([u.manages_team(t) for t in u.teams])
+
+def test_teacher_cant_withdraw_blueshirt():
+    """Teachers can't withdraw blueshirts"""
+    assert not User.create_user("teacher_coll1", "facebees").can_withdraw(User.create_user("blueshirt"))
+
+def test_teacher_cant_withdraw_self():
+    """Teachers can't withdraw themselves"""
+    u = User.create_user("teacher_coll1", "facebees")
+    assert not u.can_withdraw(u)
+
+def test_only_teachers_can_withdraw():
+    """Only teachers can withdraw people"""
+    assert not User.create_user("student_coll1_1", "cows").can_withdraw(User.create_user("student_coll1_2"))

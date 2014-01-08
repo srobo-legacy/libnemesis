@@ -281,6 +281,9 @@ class AuthenticatedUser(User):
     def is_authenticated(self):
         return True
 
+    def can_withdraw(self, user):
+        return not user.is_blueshirt and self.is_teacher and self != user
+
 class NullUser:
     def __init__(self):
         self.can_register_users = False
