@@ -476,6 +476,12 @@ def test_teacher_cant_withdraw_self():
     u = User.create_user("teacher_coll1", "facebees")
     assert not u.can_withdraw(u)
 
+def test_teacher_cant_withdraw_self2():
+    """Teachers can't withdraw themselves"""
+    t = User.create_user("teacher_coll1", "facebees")
+    u = User("teacher_coll1")
+    assert not t.can_withdraw(u)
+
 def test_only_teachers_can_withdraw():
     """Only teachers can withdraw people"""
     assert not User.create_user("student_coll1_1", "cows").can_withdraw(User.create_user("student_coll1_2"))
