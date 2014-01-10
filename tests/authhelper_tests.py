@@ -7,7 +7,6 @@ class FakeAuthorization:
 
 class FakeRequest:
     def __init__(self, username=None, password=None):
-        self.form = {}
         if username and password:
             self.authorization = FakeAuthorization(username, password)
         else:
