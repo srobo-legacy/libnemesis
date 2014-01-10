@@ -5,7 +5,8 @@ from libnemesis import College
 def test_college_has_correct_users():
     c = College("college-1")
     users = set([u.username for u in c.users])
-    eu = set(["teacher_coll1", "student_coll1_1", "student_coll1_2", "blueshirt"])
+    eu = set(["teacher_coll1", "student_coll1_1", "student_coll1_2", \
+                "blueshirt", "withdrawn_student"])
 
     assert users == eu
 
