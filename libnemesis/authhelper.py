@@ -21,7 +21,9 @@ class AuthHelper:
 
     @property
     def user_exists(self):
-        return self.request_has_username and self.form["username"] in srusers.users.list()
+        # TODO: use srusers.users.user.exists(name) when that becomes available
+        return self.request_has_username and \
+                self.form["username"].lower() in (u.lower() for u in srusers.users.list())
 
     @property
     def password_correct(self):

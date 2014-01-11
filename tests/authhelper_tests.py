@@ -20,6 +20,10 @@ def test_authhelper_finds_valid_users():
     x = AuthHelper(FakeRequest("student_coll1_1", "wrong_password"))
     assert x.user_exists
 
+def test_authhelper_finds_valid_users_wrong_case():
+    x = AuthHelper(FakeRequest("Student_Coll1_1", "wrong_password"))
+    assert x.user_exists
+
 def test_authhelper_finds_wrong_password():
     x = AuthHelper(FakeRequest("student_coll1_1", "wrong_password"))
     assert not x.password_correct
@@ -28,9 +32,17 @@ def test_authhelper_finds_right_password():
     x = AuthHelper(FakeRequest("student_coll1_1", "cows"))
     assert x.password_correct
 
+def test_authhelper_finds_right_password_wrong_case_username():
+    x = AuthHelper(FakeRequest("Student_Coll1_1", "cows"))
+    assert x.password_correct
+
 def test_authhelper_produces_correct_user():
     x = AuthHelper(FakeRequest("blueshirt", "blueshirt"))
     assert x.user.is_blueshirt
+
+def test_authhelper_produces_correct_user_from_wrong_case():
+    x = AuthHelper(FakeRequest("Student_Coll1_1", "cows"))
+    assert x.user.username == "student_coll1_1"
 
 def test_authhelper_produces_null_user():
     x = AuthHelper(FakeRequest("owiefjwqoi", "blueshirt"))
