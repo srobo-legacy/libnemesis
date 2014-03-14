@@ -186,6 +186,9 @@ class User(object):
 
         return self._can_administrate(other_user_or_username)
 
+    def can_withdraw(self, user):
+        return False
+
     def manages_team(self, team_or_team_name):
         # if it's a string get an internal representation
         if isinstance(team_or_team_name, basestring):

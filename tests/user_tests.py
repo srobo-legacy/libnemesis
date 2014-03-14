@@ -286,6 +286,11 @@ def test_can_plain_teacher_user_register_users():
     u = User.create_user('teacher_coll1')
     assert not u.can_register_users
 
+def test_can_plain_teacher_user_withdraw_users():
+    u = User.create_user('teacher_coll1')
+    s = User.create_user('student_coll1_1')
+    assert not u.can_withdraw(s)
+
 def test_can_plain_blueshirt_user_register_users():
     u = User.create_user('blueshirt')
     assert not u.can_register_users
