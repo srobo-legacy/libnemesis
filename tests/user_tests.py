@@ -272,6 +272,12 @@ def test_can_null_user_register_users():
     nu = NullUser()
     assert not nu.can_register_users
 
+def test_can_null_user_other_things():
+    # Not to check that it has the ability, but more that the methods exist
+    nu = NullUser()
+    assert not nu.can_administrate(None)
+    assert not nu.can_withdraw(None)
+
 def test_can_plain_student_user_register_users():
     u = User.create_user('student_coll1_1')
     assert not u.can_register_users

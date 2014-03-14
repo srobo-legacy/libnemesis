@@ -293,6 +293,9 @@ class NullUser:
     def can_administrate(self, other_user):
        return False
 
+    def can_withdraw(self, user):
+        return False
+
     def is_authenticated(self):
         return False
 
