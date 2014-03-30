@@ -178,6 +178,8 @@ def test_delete_user():
         g = srusers.group(gid)
         assert not username in g.members
 
+## New user
+
 @with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
 def test_new_user():
     ru = User.create_user("teacher_coll1", "facebees")
@@ -225,6 +227,8 @@ def test_new_user_wrong_college():
         assert "teacher_coll1" in e.message
         assert 'college-2' in e.message
 
+## Group memberships
+
 def test_user_teams():
     team_names = [team.name for team in User.create_user("student_coll1_1").teams]
     assert team_names == ["team-ABC"]
@@ -240,6 +244,8 @@ def test_user_colleges2():
 def test_authed_user_colleges():
     college_names = [college.name for college in User.create_user("teacher_coll1", "facebees").colleges]
     assert college_names == ["college the first"]
+
+## Is Something
 
 def test_is_teacher_1():
     assert not User.create_user("student_coll2_1").is_teacher
@@ -268,6 +274,8 @@ def test_is_blueshirt_2():
 def test_is_blueshirt_3():
     assert User.create_user("blueshirt").is_blueshirt
 
+## Null User
+
 def test_can_null_user_register_users():
     nu = NullUser()
     assert not nu.can_register_users
@@ -277,6 +285,8 @@ def test_can_null_user_other_things():
     nu = NullUser()
     assert not nu.can_administrate(None)
     assert not nu.can_withdraw(None)
+
+## Registration Access
 
 def test_can_plain_student_user_register_users():
     u = User.create_user('student_coll1_1')
@@ -307,6 +317,8 @@ def test_can_authed_blueshirt_user_register_users():
     u = User.create_user('blueshirt', 'blueshirt')
     assert u.can_register_users == True
 
+## Equality tests
+
 def test_user_equality():
     a = User.create_user("teacher_coll1")
     b = User.create_user("teacher_coll1")
@@ -326,6 +338,8 @@ def test_authed_user_nequality():
     a = User.create_user("teacher_coll1", "facebees")
     b = User.create_user("teacher_coll2")
     assert a != b
+
+## Administration
 
 def test_unauthed_cant_see_any():
     a = User.create_user("teacher_coll1")
@@ -385,6 +399,8 @@ def test_authed_teachers_cant_see_blueshirt():
 
     assert not any([u.can_administrate(a) for u in users])
 
+## Details for user
+
 def test_user_properties_blueshirt():
     u = User.create_user("blueshirt", "blueshirt")
     data = u.details_dictionary_for(u)
@@ -409,6 +425,8 @@ def test_user_properties_team_leader():
     assert not data['is_student']
     assert not data['is_blueshirt']
 
+## Set Password
+
 def test_set_password():
     u = User.create_user("teacher_coll1", "facebees")
     u.set_password("bacon")
@@ -420,6 +438,8 @@ def test_set_password():
 
     u.set_password("facebees")
     u.save()
+
+## Access rights
 
 def test_blueshirt_cant_see_email():
     u = User.create_user("blueshirt", "blueshirt")
