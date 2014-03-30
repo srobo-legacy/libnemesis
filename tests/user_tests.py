@@ -284,6 +284,7 @@ def test_can_null_user_other_things():
     # Not to check that it has the ability, but more that the methods exist
     nu = NullUser()
     assert not nu.can_administrate(None)
+    assert not nu.can_view(None)
     assert not nu.can_withdraw(None)
 
 ## Registration Access
@@ -516,3 +517,57 @@ def test_teacher_cant_withdraw_self2():
 def test_only_teachers_can_withdraw():
     """Only teachers can withdraw people"""
     assert not User.create_user("student_coll1_1", "cows").can_withdraw(User.create_user("student_coll1_2"))
+
+def test_unauthenticated_user_can_view_nothing():
+    def helper(username, other_username):
+        u = User.create_user(username)
+        u1 = User.create_user(other_username)
+        assert not u.can_view(u1)
+
+    yield helper, "student_coll1_1", "student_coll1_1"
+    yield helper, "student_coll1_1", "teacher_coll1"
+    yield helper, "student_coll1_1", "blueshirt"
+    yield helper, "teacher_coll1", "student_coll1_1"
+    yield helper, "teacher_coll1", "teacher_coll1"
+    yield helper, "teacher_coll1", "blueshirt"
+    yield helper, "blueshirt", "student_coll1_1"
+    yield helper, "blueshirt", "teacher_coll1"
+    yield helper, "blueshirt", "blueshirt"
+
+def test_can_view_self():
+    def helper(username, password):
+        u = User.create_user(username, password)
+        u1 = User.create_user(username, password)
+        assert u.can_view(u), "should be able to same instance"
+        assert u.can_view(u1), "should be able to see other authenticated self"
+        u2 = User.create_user(username)
+        assert u.can_view(u2), "should be able to see other plain self"
+
+    yield helper, "student_coll1_1", "cows"
+    yield helper, "teacher_coll1", "facebees"
+    yield helper, "blueshirt", "blueshirt"
+
+def test_can_view_other():
+    def helper(username, password, other_username):
+        u = User.create_user(username, password)
+        other = User.create_user(other_username)
+        assert u.can_view(other)
+
+    yield helper, "teacher_coll1", "facebees", "student_coll1_1"
+    yield helper, "blueshirt", "blueshirt", "student_coll1_1"
+    yield helper, "blueshirt", "blueshirt", "teacher_coll1"
+
+def test_can_not_view_other():
+    def helper(username, password, other_username, description):
+        u = User.create_user(username, password)
+        other = User.create_user(other_username)
+        assert not u.can_view(other), description
+
+    yield helper, "student_coll1_1", "cows", "teacher_coll1", "students shouldn't see teachers"
+    yield helper, "student_coll1_1", "cows", "blueshirt", "students shouldn't see blueshirts"
+    yield helper, "student_coll1_1", "cows", "student_coll1_2", "students shouldn't see other students"
+    yield helper, "student_coll1_1", "cows", "student_coll2_2", "students shouldn't see other students"
+
+    yield helper, "teacher_coll1", "facebees", "student_coll2_2", "teachers shouldn't see other team's students"
+    yield helper, "teacher_coll1", "facebees", "blueshirt", "teachers shouldn't see blueshirts"
+    yield helper, "blueshirt", "blueshirt", "student_coll2_2", "blueshirts shouldn't see other team's students"

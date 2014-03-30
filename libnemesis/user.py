@@ -186,6 +186,9 @@ class User(object):
 
         return self._can_administrate(other_user_or_username)
 
+    def can_view(self, user):
+        return False
+
     def can_withdraw(self, user):
         return False
 
@@ -288,6 +291,9 @@ class AuthenticatedUser(User):
     def is_authenticated(self):
         return True
 
+    def can_view(self, user):
+       return self.can_administrate(user)
+
     def can_withdraw(self, user):
         return not user.is_blueshirt and self.is_teacher and self != user
 
@@ -298,6 +304,9 @@ class NullUser:
         self.is_blueshirt = False
 
     def can_administrate(self, other_user):
+       return False
+
+    def can_view(self, user):
        return False
 
     def can_withdraw(self, user):
