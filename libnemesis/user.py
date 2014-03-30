@@ -122,7 +122,7 @@ class User(object):
         return self._user.sname
 
     def details_dictionary_for(self, other):
-        assert other.can_administrate(self)
+        assert other.can_view(self)
         build =  {
                 "username":self.username,
                 "first_name":self.first_name,
@@ -178,6 +178,10 @@ class User(object):
     @property
     def is_blueshirt(self):
         return "mentors" in self._user.groups()
+
+    @property
+    def is_blueshirt_extra(self):
+        return "mentors-extra" in self._user.groups()
 
     def can_administrate(self, other_user_or_username):
         #if it's a string return the internal comparison with a user object
@@ -292,7 +296,7 @@ class AuthenticatedUser(User):
         return True
 
     def can_view(self, user):
-       return self.can_administrate(user)
+       return self.can_administrate(user) or self.is_blueshirt_extra
 
     def can_withdraw(self, user):
         return not user.is_blueshirt and self.is_teacher and self != user

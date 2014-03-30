@@ -15,6 +15,28 @@ def remove_user(name):
 
     return helper
 
+def ensure_in_group(username, groupname):
+    def helper():
+        u = srusers.user(username)
+        assert u.in_db
+        if groupname not in u.groups():
+            g = srusers.group(groupname)
+            g.user_add(username)
+            g.save()
+
+    return helper
+
+def remove_from_group(username, groupname):
+    def helper():
+        u = srusers.user(username)
+        assert u.in_db
+        if groupname in u.groups():
+            g = srusers.group(groupname)
+            g.user_rm(username)
+            g.save()
+
+    return helper
+
 def test_can_make_user():
     User.create_user("teacher_coll1")
 
@@ -571,3 +593,36 @@ def test_can_not_view_other():
     yield helper, "teacher_coll1", "facebees", "student_coll2_2", "teachers shouldn't see other team's students"
     yield helper, "teacher_coll1", "facebees", "blueshirt", "teachers shouldn't see blueshirts"
     yield helper, "blueshirt", "blueshirt", "student_coll2_2", "blueshirts shouldn't see other team's students"
+
+@with_setup(ensure_in_group('blueshirt', 'mentors-extra'), \
+            remove_from_group('blueshirt', 'mentors-extra'))
+def test_blueshirt_extra_can_view_all_competitors():
+    def helper(other_username):
+        u = User.create_user("blueshirt", "blueshirt")
+        other = User.create_user(other_username)
+        assert u.can_view(other)
+
+    yield helper, "student_coll1_1"
+    yield helper, "student_coll2_2"
+    yield helper, "teacher_coll1"
+    yield helper, "teacher_coll2"
+
+@with_setup(ensure_in_group('blueshirt', 'mentors-extra'), \
+            remove_from_group('blueshirt', 'mentors-extra'))
+def test_blueshirt_extra_details():
+    def helper(other_username):
+        blueshirt = User.create_user("blueshirt", "blueshirt")
+        competitor = User.create_user(other_username)
+        assert blueshirt.can_view(competitor), "Sanity check"
+        details = competitor.details_dictionary_for(blueshirt)
+        for keyname in ["username", "first_name", "last_name", "is_student", \
+                        "is_team_leader", "has_withdrawn", "has_media_consent", \
+                        "teams", "colleges"]:
+            assert keyname in details
+
+        assert not 'email' in details, "No need to be able to see their email"
+
+    yield helper, "student_coll1_1"
+    yield helper, "student_coll2_2"
+    yield helper, "teacher_coll1"
+    yield helper, "teacher_coll2"
