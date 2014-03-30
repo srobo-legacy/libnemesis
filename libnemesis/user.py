@@ -221,6 +221,10 @@ class User(object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __repr__(self):
+        type_ = self.__class__.__name__
+        return "{0}({1})".format(type_, self.username)
+
     def save(self):
         self._user.save()
         for g in self._modified_groups:
