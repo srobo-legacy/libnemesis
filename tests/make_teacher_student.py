@@ -1,7 +1,7 @@
 
 from nose.tools import with_setup
 
-from libnemesis import *
+from libnemesis import User, srusers
 
 def my_setUp():
     # Create a temp user

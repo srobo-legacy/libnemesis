@@ -2,8 +2,8 @@
 import ldap.filter
 
 import srusers
-from team import *
-from college import *
+from team import Team
+from college import College
 
 class User(object):
     @classmethod

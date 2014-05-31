@@ -1,7 +1,7 @@
 
 from nose.tools import with_setup
 
-from libnemesis import *
+from libnemesis import User, srusers
 
 ORIG_COLLEGE_NAME = 'college-STA'
 NEW_COLLEGE_NAME = 'college-STB'

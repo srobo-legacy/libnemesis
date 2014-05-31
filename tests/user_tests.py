@@ -1,7 +1,7 @@
 
-from nose.tools import raises, with_setup
+from nose.tools import with_setup
 
-from libnemesis import *
+from libnemesis import User, NullUser, srusers
 
 def remove_user(name):
     def helper():
@@ -78,6 +78,11 @@ def test_name_used():
 
 def test_name_not_used():
     used = User.name_used('John', 'Smith')
+    assert used == False
+
+def test_unicode_name_not_used():
+    andre = 'Andr' + u'\xe9' # Andre with e-acute
+    used = User.name_used(andre, 'Smith')
     assert used == False
 
 def test_wildcard_name_not_used():
@@ -415,9 +420,9 @@ def test_authed_blueshirt_cant_see_other_students():
     assert not any(results)
 
 def test_authed_teachers_cant_see_blueshirt():
-    u = User.create_user("teacher_coll1", "facebees")
+    u1 = User.create_user("teacher_coll1", "facebees")
     u2 = User.create_user("teacher_coll2", "noway")
-    users = [u, u2]
+    users = [u1, u2]
     a = User.create_user("blueshirt")
 
     assert not any([u.can_administrate(a) for u in users])

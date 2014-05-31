@@ -1,7 +1,7 @@
 
 from nose.tools import with_setup
 
-from libnemesis import *
+from libnemesis import User, srusers
 
 ORIG_TEAM_NAME = 'team-STA'
 NEW_TEAM_NAME = 'team-STB'
