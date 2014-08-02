@@ -188,3 +188,10 @@ cn: withdrawn
 memberUid: withdrawn_student
 description: withdrawn group
 gidNumber: 3008
+
+dn: cn=media-consent,ou=groups,o=sr
+objectClass: posixGroup
+cn: media-consent
+memberUid: blueshirt
+description: those users who have provided media consent
+gidNumber: 3009
