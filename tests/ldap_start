@@ -180,18 +180,21 @@ objectClass: posixGroup
 cn: mentors
 memberUid: blueshirt
 description: mentors group
-gidNumber: 3007
+# Use same gid number as puppet
+gidNumber: 2002
 
 dn: cn=withdrawn,ou=groups,o=sr
 objectClass: posixGroup
 cn: withdrawn
 memberUid: withdrawn_student
 description: withdrawn group
-gidNumber: 3008
+# Use same gid number as puppet
+gidNumber: 2003
 
 dn: cn=media-consent,ou=groups,o=sr
 objectClass: posixGroup
 cn: media-consent
 memberUid: blueshirt
 description: those users who have provided media consent
-gidNumber: 3009
+# Use same gid number as puppet
+gidNumber: 2002
