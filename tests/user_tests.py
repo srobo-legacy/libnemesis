@@ -47,9 +47,9 @@ def test_nonexistant_user_raises():
     except:
         pass
 
-def check_new_user(u):
+def check_new_user(u, first = 'first'):
     assert u.username == '1_fl1'
-    assert u.first_name == 'first'
+    assert u.first_name == first
     assert u.last_name == 'last'
     assert u.email == ''
     assert not u.is_blueshirt
@@ -83,6 +83,11 @@ def test_name_not_used():
 def test_unicode_name_not_used():
     andre = 'Andr' + u'\xe9' # Andre with e-acute
     used = User.name_used(andre, 'Smith')
+    assert used == False
+
+def test_unicode_name_not_used_2():
+    bill_pony = u'Bill\u2658' # Bill plus white chess knight
+    used = User.name_used(bill_pony, 'Smith')
     assert used == False
 
 def test_wildcard_name_not_used():
@@ -215,6 +220,20 @@ def test_new_user():
 
 @with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
 def test_new_user_unicode():
+    ru = User.create_user("teacher_coll1", "facebees")
+    first = u'f\xedrst'
+    u = User.create_new_user(ru, u'college-1', first, u'last')
+    check_new_user(u, first.encode('utf-8'))
+
+@with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
+def test_new_user_unicode_1():
+    ru = User.create_user("teacher_coll1", "facebees")
+    first = u'first\u2658'
+    u = User.create_new_user(ru, u'college-1', first, u'last')
+    check_new_user(u, first.encode('utf-8'))
+
+@with_setup(remove_user('1_fl1'), remove_user('1_fl1'))
+def test_new_user_unicode_2():
     ru = User.create_user("teacher_coll1", "facebees")
     u = User.create_new_user(ru, u'college-1', u'first', u'last')
     check_new_user(u)
