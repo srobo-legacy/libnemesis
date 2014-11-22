@@ -34,10 +34,8 @@ class User(object):
         if not college in requesting_user.colleges:
             raise Exception("requesting user '%s' is not in the requested college '%s'" % (requesting_user.username, college))
 
-        first_name = str(first_name)
-        last_name = str(last_name)
         username = srusers.new_username(college, first_name, last_name)
-        u = srusers.user(str(username))
+        u = srusers.user(username)
         u.cname = first_name
         u.sname = last_name
         u.email = ''
@@ -61,13 +59,13 @@ class User(object):
         self._user.set_passwd(old=None, new=password)
 
     def set_email(self, email):
-        self._user.email = str(email)
+        self._user.email = email
 
     def set_first_name(self, first_name):
-        self._user.cname = str(first_name)
+        self._user.cname = first_name
 
     def set_last_name(self, last_name):
-        self._user.sname = str(last_name)
+        self._user.sname = last_name
 
     def _set_group(self, new_group, current_groups):
         """
