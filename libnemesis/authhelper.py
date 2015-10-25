@@ -31,10 +31,7 @@ class AuthHelper:
 
     @property
     def auth_will_succeed(self):
-        return self.request_has_username and \
-                self.request_has_password and \
-                self.user_exists and \
-                self.password_correct
+        return self.user_exists and self.password_correct
 
     @property
     def user(self):
