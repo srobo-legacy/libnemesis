@@ -1,6 +1,18 @@
-import time
 
-from libnemesis import College
+import time
+from nose.tools import with_setup
+
+from libnemesis import College, srusers
+
+def add_blueshirt_to_team_QWZ():
+    g = srusers.group("team-QWZ")
+    g.user_add("blueshirt")
+    g.save()
+
+def remove_blueshirt_from_team_QWZ():
+    g = srusers.group("team-QWZ")
+    g.user_rm("blueshirt")
+    g.save()
 
 def test_college_has_correct_users():
     c = College("college-1")
@@ -16,7 +28,14 @@ def test_college_has_correct_name():
 
 def test_college_has_correct_teams():
     c = College("college-1")
-    assert set([t.name for t in c.teams]) == set(["team-ABC", "team-DFE"])
+    actual = set([t.name for t in c.teams])
+    assert actual == set(["team-ABC", "team-DFE"])
+
+@with_setup(add_blueshirt_to_team_QWZ, remove_blueshirt_from_team_QWZ)
+def test_college_has_correct_teams_with_blueshirt():
+    c = College("college-1")
+    actual = set([t.name for t in c.teams])
+    assert actual == set(["team-ABC", "team-DFE"])
 
 def test_college_eq_works():
     c = College("college-1")

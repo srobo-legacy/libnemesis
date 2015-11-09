@@ -25,7 +25,12 @@ class College:
     def teams(self):
         teams = set()
         for user_object in self.users:
-            teams.update(user_object.teams)
+            # Only allow teams which team-leaders or students are members
+            # of to count. Blueshirts are likely to be added to many teams
+            # and colleges but we don't want that to affect the teams
+            # which are actually related to the colleges.
+            if user_object.is_teacher or user_object.is_student:
+                teams.update(user_object.teams)
 
         return teams
 
