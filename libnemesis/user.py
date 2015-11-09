@@ -269,13 +269,6 @@ class AuthenticatedUser(User):
 
         return user_object in self._viewable_users
 
-    def _any_team_has_member(self, user_object):
-        for team in self.teams:
-            for user in team.users:
-                if user == user_object:
-                    return True
-        return False
-
     def _manages_team(self, team_object):
         return self.is_teacher and team_object in self.teams
 
