@@ -181,7 +181,7 @@ cn: mentors
 memberUid: blueshirt
 description: mentors group
 # Use same gid number as puppet
-gidNumber: 2002
+gidNumber: 2001
 
 dn: cn=withdrawn,ou=groups,o=sr
 objectClass: posixGroup

@@ -181,6 +181,10 @@ class User(object):
     def is_blueshirt_extra(self):
         return "mentors-extra" in self._user.groups()
 
+    @property
+    def can_record_media_consent(self):
+        return "media-consent-admin" in self._user.groups()
+
     def can_administrate(self, other_user_or_username):
         #if it's a string return the internal comparison with a user object
         if isinstance(other_user_or_username, basestring):
