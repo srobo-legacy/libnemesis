@@ -208,6 +208,30 @@ def test_media_consent_true_2():
     data = u.details_dictionary_for(u)
     assert data['has_media_consent']
 
+def test_record_media_consent_false():
+    u = User.create_user("student_coll1_1")
+    assert not u.can_record_media_consent
+
+@with_setup(remove_user('admin-consent'), remove_user('admin-consent'))
+def test_media_consent_true_1():
+    username = 'admin-consent'
+    sru = srusers.user(username)
+    sru.cname = 'admin'
+    sru.sname = 'consent'
+    sru.email = ''
+    sru.save()
+
+    # Sanity check
+    u = User.create_user(username)
+    assert not u.can_record_media_consent
+
+    g = srusers.group('media-consent-admin')
+    g.user_add(sru)
+    g.save()
+
+    u = User.create_user(username)
+    assert u.can_record_media_consent
+
 @with_setup(remove_user('to-be-deleted'), remove_user('to-be-deleted'))
 def test_delete_user():
     username = 'to-be-deleted'
