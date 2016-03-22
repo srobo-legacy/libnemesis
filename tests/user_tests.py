@@ -157,6 +157,27 @@ def test_media_consent_false_2():
     data = u.details_dictionary_for(u)
     assert not data['has_media_consent']
 
+@with_setup(remove_user('to-consent'), remove_user('to-consent'))
+def test_media_consent_grant():
+    username = 'to-consent'
+    sru = srusers.user(username)
+    sru.cname = 'to'
+    sru.sname = 'consent'
+    sru.email = ''
+    sru.save()
+
+    u = User.create_user(username)
+    # Sanity check
+    assert not u.has_media_consent, "Fresh user should not have granted media consent"
+
+    u.got_media_consent()
+    u.save()
+    assert u.has_media_consent, "Should have recorded the media-consent grant"
+
+    # Fresh instance
+    u = User.create_user(username)
+    assert u.has_media_consent, "Media consent grant should persist"
+
 def create_media_consent(username):
     sru = srusers.user(username)
     sru.cname = 'to'

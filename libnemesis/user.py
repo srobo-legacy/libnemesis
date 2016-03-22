@@ -154,6 +154,9 @@ class User(object):
     def has_media_consent(self):
         return "media-consent" in self._user.groups()
 
+    def got_media_consent(self):
+        self._set_group('media-consent', [])
+
     @property
     def has_withdrawn(self):
         return "withdrawn" in self._user.groups()
