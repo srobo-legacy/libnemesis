@@ -676,6 +676,22 @@ def test_blueshirt_extra_can_view_all_competitors():
     yield helper, "teacher_coll1"
     yield helper, "teacher_coll2"
 
+def test_media_consent_admin_can_view_all_competitors():
+    blueshirt_mcf = srusers.user('blueshirt-mcf')
+    groups = blueshirt_mcf.groups()
+    # Sanity check
+    assert set(groups) == set(['mentors', 'media-consent-admin'])
+
+    def helper(other_username):
+        u = User.create_user("blueshirt-mcf", "blueshirt")
+        other = User.create_user(other_username)
+        assert u.can_view(other)
+
+    yield helper, "student_coll1_1"
+    yield helper, "student_coll2_2"
+    yield helper, "teacher_coll1"
+    yield helper, "teacher_coll2"
+
 @with_setup(ensure_in_group('blueshirt', 'mentors-extra'), \
             remove_from_group('blueshirt', 'mentors-extra'))
 def test_blueshirt_extra_details():

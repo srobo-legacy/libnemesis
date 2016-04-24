@@ -294,7 +294,9 @@ class AuthenticatedUser(User):
         return True
 
     def can_view(self, user):
-       return self.can_administrate(user) or self.is_blueshirt_extra
+        return self.can_administrate(user) or self.is_blueshirt_extra \
+            or self.can_record_media_consent
+
 
     def can_withdraw(self, user):
         return not user.is_blueshirt and self.is_teacher and self != user
