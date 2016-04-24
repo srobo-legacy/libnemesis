@@ -202,7 +202,6 @@ gidNumber: 2002
 dn: cn=media-consent-admin,ou=groups,o=sr
 objectClass: posixGroup
 cn: media-consent-admin
-memberUid: blueshirt
 description: users who may administer media consent membership
 # Use same gid number as puppet
 gidNumber: 2004
