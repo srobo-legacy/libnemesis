@@ -31,6 +31,48 @@ class College(lazy_group.LazyGroup):
 
         return teams
 
+    def _get_counts(self):
+        counts = {
+            "team_leaders": 0,
+            "students": 0,
+            "media_consent": 0,
+            "withdrawn": 0,
+        }
+
+        for user in self.users:
+            if user.is_blueshirt:
+                continue
+            if user.is_teacher:
+                counts["team_leaders"] += 1
+            if user.is_student:
+                counts["students"] += 1
+            if user.has_media_consent:
+                counts["media_consent"] += 1
+            if user.has_withdrawn:
+                counts["withdrawn"] += 1
+
+        return counts
+
+    def details_dictionary_for(self, requesting_user):
+        user_in_college = self in requesting_user.colleges
+        assert user_in_college or requesting_user.is_blueshirt
+
+        build = {
+            "name": self.name,
+            "teams": [t.name for t in self.teams],
+            "counts": self._get_counts(),
+        }
+
+        if user_in_college:
+            build["users"] = [
+                u.username
+                for u in self.users
+                if requesting_user.can_administrate(u)
+            ]
+
+        return build
+
+
     def __eq__(self, other):
         if isinstance(other, College):
             return self.group_name == other.group_name
