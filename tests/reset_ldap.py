@@ -29,6 +29,7 @@ with open(start_file, 'r') as lines:
             to_remove.append(dn)
 
 subprocess.call(['ldapdelete', '-x'
+                             , '-c'
                              , '-h', host
                              , '-D', managerDn
                              , '-w', password
