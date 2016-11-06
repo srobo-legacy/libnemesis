@@ -1,5 +1,4 @@
 import srusers
-import re
 
 import user
 
@@ -11,7 +10,7 @@ class College:
 
     @classmethod
     def is_valid_college_name(cls, string):
-        return re.match("college.*", string) is not None
+        return string.startswith(srusers.constants.COLLEGE_PREFIX)
 
     def __init__(self, group_name):
         self._group = srusers.group(group_name)
