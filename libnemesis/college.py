@@ -3,6 +3,8 @@ import srusers
 import user
 
 class College:
+    """A lazy wrapper around an LDAP group representing a college."""
+
     @classmethod
     def all_college_names(cls):
         all_groups = srusers.groups.list()
@@ -13,8 +15,19 @@ class College:
         return string.startswith(srusers.constants.COLLEGE_PREFIX)
 
     def __init__(self, group_name):
-        self._group = srusers.group(group_name)
-        self.group_name = group_name
+        self._group_name = group_name
+        self._cached_group = None
+
+    @property
+    def group_name(self):
+        return self._group_name
+
+    @property
+    def _group(self):
+        if self._cached_group is None:
+            self._cached_group = srusers.group(self._group_name)
+
+        return self._cached_group
 
     @property
     def name(self):
