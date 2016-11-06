@@ -10,6 +10,7 @@ class AuthHelper:
         else:
             form = {}
         self.form = form
+        self._auth_succeeded = None
 
     @property
     def request_has_username(self):
@@ -29,7 +30,9 @@ class AuthHelper:
 
     @property
     def auth_will_succeed(self):
-        return self.user_exists and self.password_correct
+        if self._auth_succeeded is None:
+            self._auth_succeeded = self.user_exists and self.password_correct
+        return self._auth_succeeded
 
     @property
     def user(self):
