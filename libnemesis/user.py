@@ -2,6 +2,7 @@
 import ldap.filter
 
 import srusers
+
 from team import Team
 from college import College
 
@@ -223,12 +224,12 @@ class User(object):
 
     def __eq__(self, other):
         if isinstance(other, User) or isinstance(other, AuthenticatedUser):
-            return self._user.username == other._user.username
+            return self.username == other.username
         else:
             return False
 
     def __hash__(self):
-        return self._user.username.__hash__()
+        return self.username.__hash__()
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -308,10 +309,10 @@ class NullUser:
         self.is_blueshirt = False
 
     def can_administrate(self, other_user):
-       return False
+        return False
 
     def can_view(self, user):
-       return False
+        return False
 
     def can_withdraw(self, user):
         return False

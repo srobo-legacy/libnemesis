@@ -1,0 +1,1 @@
+pylint libnemesis/ --rcfile=../../.pylintrc --ignore=srusers
