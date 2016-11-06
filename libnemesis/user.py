@@ -56,6 +56,15 @@ class User(object):
         # after our changes will yield very odd results.
         self._modified_groups = set()
 
+        self._cached_groups = None
+
+    @property
+    def _groups(self):
+        if self._cached_groups is None:
+            self._cached_groups = set(self._user.groups())
+
+        return self._cached_groups
+
     def set_password(self, password):
         self._user.set_passwd(old=None, new=password)
 
@@ -148,30 +157,30 @@ class User(object):
 
     @property
     def colleges(self):
-        return [College(g) for g in self._user.groups()\
+        return [College(g) for g in self._groups\
                 if College.is_valid_college_name(g)]
 
     @property
     def has_media_consent(self):
-        return "media-consent" in self._user.groups()
+        return "media-consent" in self._groups
 
     def got_media_consent(self):
         self._set_group('media-consent', [])
 
     @property
     def has_withdrawn(self):
-        return "withdrawn" in self._user.groups()
+        return "withdrawn" in self._groups
 
     def withdraw(self):
         self._set_group('withdrawn', [])
 
     @property
     def is_student(self):
-        return "students" in self._user.groups()
+        return "students" in self._groups
 
     @property
     def is_teacher(self):
-        return "teachers" in self._user.groups()
+        return "teachers" in self._groups
 
     @property
     def can_register_users(self):
@@ -179,15 +188,15 @@ class User(object):
 
     @property
     def is_blueshirt(self):
-        return "mentors" in self._user.groups()
+        return "mentors" in self._groups
 
     @property
     def is_blueshirt_extra(self):
-        return "mentors-extra" in self._user.groups()
+        return "mentors-extra" in self._groups
 
     @property
     def can_record_media_consent(self):
-        return "media-consent-admin" in self._user.groups()
+        return "media-consent-admin" in self._groups
 
     def can_administrate(self, other_user_or_username):
         #if it's a string return the internal comparison with a user object
@@ -214,7 +223,7 @@ class User(object):
         return self._manages_team(team_or_team_name)
 
     def _valid_team_groups(self):
-        return [Team(g) for g in self._user.groups() if Team.valid_team_name(g)]
+        return [Team(g) for g in self._groups if Team.valid_team_name(g)]
 
     def _can_administrate(self, user_object):
         return False
@@ -239,6 +248,7 @@ class User(object):
         return "{0}({1})".format(type_, self.username)
 
     def save(self):
+        self._cached_groups = None
         self._user.save()
         for g in self._modified_groups:
             g.save()
