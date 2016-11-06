@@ -232,7 +232,7 @@ class User(object):
         return False
 
     def __eq__(self, other):
-        if isinstance(other, User) or isinstance(other, AuthenticatedUser):
+        if isinstance(other, User):
             return self.username == other.username
         else:
             return False
