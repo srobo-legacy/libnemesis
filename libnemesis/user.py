@@ -271,7 +271,6 @@ class AuthenticatedUser(User):
         # one we just checked above.
         super(AuthenticatedUser, self).__init__(username)
 
-        self._password = password
         self._viewable_users = set()
 
     @property
