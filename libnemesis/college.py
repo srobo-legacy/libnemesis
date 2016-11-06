@@ -1,8 +1,8 @@
 import srusers
 
-import user
+import lazy_group
 
-class College:
+class College(lazy_group.LazyGroup):
     """A lazy wrapper around an LDAP group representing a college."""
 
     @classmethod
@@ -13,21 +13,6 @@ class College:
     @classmethod
     def is_valid_college_name(cls, string):
         return string.startswith(srusers.constants.COLLEGE_PREFIX)
-
-    def __init__(self, group_name):
-        self._group_name = group_name
-        self._cached_group = None
-
-    @property
-    def group_name(self):
-        return self._group_name
-
-    @property
-    def _group(self):
-        if self._cached_group is None:
-            self._cached_group = srusers.group(self._group_name)
-
-        return self._cached_group
 
     @property
     def name(self):
@@ -45,10 +30,6 @@ class College:
                 teams.update(user_object.teams)
 
         return teams
-
-    @property
-    def users(self):
-        return [user.User.create_user(username=un) for un in self._group.members]
 
     def __eq__(self, other):
         if isinstance(other, College):
