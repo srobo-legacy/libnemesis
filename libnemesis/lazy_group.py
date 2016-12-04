@@ -24,7 +24,10 @@ class LazyGroup(object):
     @property
     def users(self):
         if self._cached_users is None:
-            self._cached_users = [user.User(un) for un in self._group.members]
+            self._cached_users = [
+                user.User(un)
+                for un in self._group.members
+            ]
 
         return self._cached_users
 
