@@ -278,10 +278,6 @@ class AuthenticatedUser(User):
     def can_register_users(self):
         return self.is_teacher or self.is_blueshirt
 
-    def _can_administrate(self, user_object):
-        return self._can_view_if_teacher_or_blueshirt(user_object) or \
-               user_object == self
-
     def _any_college_has_member(self, user_object):
         self._setup_viewable_users()
 
@@ -296,10 +292,12 @@ class AuthenticatedUser(User):
                 for user in college.users:
                     self._viewable_users.add(user)
 
-    def _can_view_if_teacher_or_blueshirt(self, user_object):
-        return (self.is_teacher or self.is_blueshirt) and \
-               self._any_college_has_member(user_object) and \
-               not user_object.is_blueshirt
+    def _can_administrate(self, user_object):
+        return user_object == self or (
+            (self.is_teacher or self.is_blueshirt) and
+            self._any_college_has_member(user_object) and
+            not user_object.is_blueshirt
+        )
 
     def is_authenticated(self):
         return True
