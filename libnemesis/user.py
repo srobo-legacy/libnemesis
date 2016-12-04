@@ -133,17 +133,17 @@ class User(object):
     def details_dictionary_for(self, other):
         assert other.can_view(self)
         build =  {
-                "username":self.username,
-                "first_name":self.first_name,
-                "last_name":self.last_name,
-                "is_blueshirt":self.is_blueshirt,
-                "is_student":self.is_student,
-                "is_team_leader":self.is_teacher,
-                "has_withdrawn":self.has_withdrawn,
-                "has_media_consent":self.has_media_consent,
-                "teams":[x.name for x in self.teams],
-                "colleges":[x.group_name for x in self.colleges]
-                }
+            "username": self.username,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "is_blueshirt": self.is_blueshirt,
+            "is_student": self.is_student,
+            "is_team_leader": self.is_teacher,
+            "has_withdrawn": self.has_withdrawn,
+            "has_media_consent": self.has_media_consent,
+            "teams": [x.name for x in self.teams],
+            "colleges": [x.group_name for x in self.colleges],
+        }
 
         if other.is_teacher or self == other:
             build["email"] = self.email
