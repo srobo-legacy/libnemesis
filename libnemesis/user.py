@@ -141,8 +141,8 @@ class User(object):
             "is_team_leader": self.is_teacher,
             "has_withdrawn": self.has_withdrawn,
             "has_media_consent": self.has_media_consent,
-            "teams": [x.name for x in self.teams],
-            "colleges": [x.group_name for x in self.colleges],
+            "teams": list(self._team_group_names),
+            "colleges": list(self._college_group_names),
         }
 
         if other.is_teacher or self == other:
@@ -151,17 +151,26 @@ class User(object):
         return build
 
     @property
+    def _team_group_names(self):
+        return filter(Team.valid_team_name, self._groups)
+
+    @property
     def teams(self):
         return set(
             Team(g)
-            for g in self._groups
-            if Team.valid_team_name(g)
+            for g in self._team_group_names
         )
 
     @property
+    def _college_group_names(self):
+        return filter(College.is_valid_college_name, self._groups)
+
+    @property
     def colleges(self):
-        return [College(g) for g in self._groups\
-                if College.is_valid_college_name(g)]
+        return [
+            College(g)
+            for g in self._college_group_names
+        ]
 
     @property
     def has_media_consent(self):
