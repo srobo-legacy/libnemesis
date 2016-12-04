@@ -279,7 +279,7 @@ class AuthenticatedUser(User):
         return self.is_teacher or self.is_blueshirt
 
     def _can_administrate(self, user_object):
-        return self._can_view_if_teacher_or_blueshirt(user_object) or\
+        return self._can_view_if_teacher_or_blueshirt(user_object) or \
                user_object == self
 
     def _any_college_has_member(self, user_object):
