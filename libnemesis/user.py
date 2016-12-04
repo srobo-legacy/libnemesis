@@ -287,7 +287,7 @@ class AuthenticatedUser(User):
     @property
     def _viewable_users(self):
         if not self._viewable_users_cache:
-            self._viewable_users_cache = set(
+            self._viewable_users_cache.update(
                 user
                 for college in self.colleges
                 for user in college.users
