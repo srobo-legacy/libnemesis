@@ -27,7 +27,7 @@ def test_make_student_teacher():
     students.user_add('st_user1')
     students.save()
 
-    u = User('st_user1')
+    u = User.create_user('st_user1')
     u.make_teacher()
     u.save()
 
@@ -41,7 +41,7 @@ def test_make_student_teacher():
 
 @with_setup(my_setUp, my_tearDown)
 def test_make_teacher():
-    u = User('st_user1')
+    u = User.create_user('st_user1')
     u.make_teacher()
     u.save()
 
@@ -59,7 +59,7 @@ def test_make_teacher_student():
     teachers.user_add('st_user1')
     teachers.save()
 
-    u = User('st_user1')
+    u = User.create_user('st_user1')
     u.make_student()
     u.save()
 
@@ -73,7 +73,7 @@ def test_make_teacher_student():
 
 @with_setup(my_setUp, my_tearDown)
 def test_make_student():
-    u = User('st_user1')
+    u = User.create_user('st_user1')
     u.make_student()
     u.save()
 

@@ -245,7 +245,7 @@ def test_delete_user():
         g.user_add(sru)
         g.save()
 
-    u = User(username)
+    u = User.create_user(username)
     u.delete()
 
     sru = srusers.user(username)
@@ -602,7 +602,7 @@ def test_teacher_cant_withdraw_self():
 def test_teacher_cant_withdraw_self2():
     """Teachers can't withdraw themselves"""
     t = User.create_user("teacher_coll1", "facebees")
-    u = User("teacher_coll1")
+    u = User.create_user("teacher_coll1")
     assert not t.can_withdraw(u)
 
 def test_only_teachers_can_withdraw():

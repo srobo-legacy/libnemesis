@@ -105,7 +105,7 @@ def assert_college_1_details_dictionary_for(requesting_user):
     return data
 
 def test_details_dictionary_for_student_member():
-    u = User("student_coll1_1")
+    u = User.create_user("student_coll1_1")
     data = assert_college_1_details_dictionary_for(u)
 
     actual_users = data["users"]
@@ -139,7 +139,7 @@ def test_details_dictionary_for_blueshirt_member():
     assert actual_users == expected_users
 
 def test_details_dictionary_for_blueshirt_non_member():
-    u = User("blueshirt")
+    u = User.create_user("blueshirt")
     c = College("college-2")
     data = c.details_dictionary_for(u)
 
@@ -163,7 +163,7 @@ def test_details_dictionary_for_blueshirt_non_member():
 
 def test_details_dictionary_for_non_member():
     c = College("college-1")
-    u = User("student_coll2_1")
+    u = User.create_user("student_coll2_1")
 
     with assert_raises(AssertionError):
         c.details_dictionary_for(u)
