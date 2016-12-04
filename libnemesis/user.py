@@ -152,9 +152,11 @@ class User(object):
 
     @property
     def teams(self):
-        teams = set()
-        teams.update(self._valid_team_groups())
-        return teams
+        return set(
+            Team(g)
+            for g in self._groups
+            if Team.valid_team_name(g)
+        )
 
     @property
     def colleges(self):
@@ -222,9 +224,6 @@ class User(object):
                 team_or_team_name = Team(team_or_team_name)
 
         return self._manages_team(team_or_team_name)
-
-    def _valid_team_groups(self):
-        return [Team(g) for g in self._groups if Team.valid_team_name(g)]
 
     def _can_administrate(self, user_object):
         return False
