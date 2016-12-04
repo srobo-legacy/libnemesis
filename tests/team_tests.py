@@ -23,6 +23,10 @@ def test_team_not_eq_other_team():
     t2 = Team('team-DEF')
     assert t1 != t2
 
+def test_team_not_eq_self():
+    t1 = Team('team-ABC')
+    assert (t1 != t1) is False
+
 def test_team_eq_equivalent_instance():
     t1 = Team('team-ABC')
     t2 = Team('team-ABC')

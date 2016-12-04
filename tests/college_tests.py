@@ -48,17 +48,28 @@ def test_college_eq_string_works():
 
     assert c == c2
 
-def test_college_neq_works():
+def test_college_neq_works_other():
     c = College("college-1")
     c2 = College("college-2")
 
     assert c != c2
 
-def test_college_neq_string_works():
+def test_college_neq_works_self():
+    c = College("college-1")
+
+    assert (c != c) is False
+
+def test_college_neq_string_works_other():
     c = College("college-1")
     c2 = "college-2"
 
     assert c != c2
+
+def test_college_neq_string_works_self():
+    name = "college-1"
+    c = College(name)
+
+    assert (c != name) is False
 
 def test_all_colleges():
     assert len(College.all_college_names()) == 2

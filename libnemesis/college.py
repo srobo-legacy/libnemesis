@@ -81,7 +81,7 @@ class College(lazy_group.LazyGroup):
         else:
             return False
 
-    def __neq__(self, other):
+    def __ne__(self, other):
         return not self.__eq__(other)
 
     def __hash__(self):
