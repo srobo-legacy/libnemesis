@@ -663,11 +663,9 @@ def test_can_not_view_other():
     yield helper, "teacher_coll1", "facebees", "blueshirt", "teachers shouldn't see blueshirts"
     yield helper, "blueshirt", "blueshirt", "student_coll2_2", "blueshirts shouldn't see other team's students"
 
-@with_setup(ensure_in_group('blueshirt', 'mentors-extra'), \
-            remove_from_group('blueshirt', 'mentors-extra'))
 def test_blueshirt_extra_can_view_all_competitors():
     def helper(other_username):
-        u = User.create_user("blueshirt", "blueshirt")
+        u = User.create_user("blueshirt-extra", "blueshirt")
         other = User.create_user(other_username)
         assert u.can_view(other)
 
@@ -692,11 +690,9 @@ def test_media_consent_admin_can_view_all_competitors():
     yield helper, "teacher_coll1"
     yield helper, "teacher_coll2"
 
-@with_setup(ensure_in_group('blueshirt', 'mentors-extra'), \
-            remove_from_group('blueshirt', 'mentors-extra'))
 def test_blueshirt_extra_details():
     def helper(other_username):
-        blueshirt = User.create_user("blueshirt", "blueshirt")
+        blueshirt = User.create_user("blueshirt-extra", "blueshirt")
         competitor = User.create_user(other_username)
         assert blueshirt.can_view(competitor), "Sanity check"
         details = competitor.details_dictionary_for(blueshirt)

@@ -124,6 +124,20 @@ mail: blueshirt-mcf@example.com
 cn: Blue
 userPassword:: e1NIQX1KaWNITFBKcyswbXhpQUE4d2xBZEVxbXFpaTQ9
 
+dn: uid=blueshirt-extra,ou=users,o=sr
+uid: blueshirt-extra
+objectClass: inetOrgPerson
+objectClass: uidObject
+objectClass: posixAccount
+loginShell: /bin/bash
+uidNumber: 2009
+gidNumber: 1999
+sn: Shirt
+homeDirectory: /home/blueshirt-extra
+mail: blueshirt-extra@example.com
+cn: Blue
+userPassword:: e1NIQX1KaWNITFBKcyswbXhpQUE4d2xBZEVxbXFpaTQ9
+
 dn: cn=college-1,ou=groups,o=sr
 objectClass: posixGroup
 cn: college-1
@@ -221,3 +235,10 @@ memberUid: blueshirt-mcf
 description: users who may administer media consent membership
 # Use same gid number as puppet
 gidNumber: 2004
+
+dn: cn=mentors-extra,ou=groups,o=sr
+objectClass: posixGroup
+cn: mentors-extra
+memberUid: blueshirt-extra
+description: mentors extra group
+gidNumber: 2005
