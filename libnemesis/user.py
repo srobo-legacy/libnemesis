@@ -5,6 +5,7 @@ import srusers
 
 from team import Team
 from college import College
+import constants
 
 class User(object):
     @classmethod
@@ -105,10 +106,10 @@ class User(object):
         self._set_group(new_college, self.colleges)
 
     def make_student(self):
-        self._set_group('students', ['teachers'])
+        self._set_group(constants.COMPETITORS_GROUP, [constants.TEAM_LEADERS_GROUP])
 
     def make_teacher(self):
-        self._set_group('teachers', ['students'])
+        self._set_group(constants.TEAM_LEADERS_GROUP, [constants.COMPETITORS_GROUP])
 
     @property
     def username(self):
@@ -162,25 +163,25 @@ class User(object):
 
     @property
     def has_media_consent(self):
-        return "media-consent" in self._groups
+        return constants.MEDIA_CONSENT_GRANTED_GROUP in self._groups
 
     def got_media_consent(self):
-        self._set_group('media-consent', [])
+        self._set_group(constants.MEDIA_CONSENT_GRANTED_GROUP, [])
 
     @property
     def has_withdrawn(self):
-        return "withdrawn" in self._groups
+        return constants.WITHDRAWN_GROUP in self._groups
 
     def withdraw(self):
-        self._set_group('withdrawn', [])
+        self._set_group(constants.WITHDRAWN_GROUP, [])
 
     @property
     def is_student(self):
-        return "students" in self._groups
+        return constants.COMPETITORS_GROUP in self._groups
 
     @property
     def is_teacher(self):
-        return "teachers" in self._groups
+        return constants.TEAM_LEADERS_GROUP in self._groups
 
     @property
     def can_register_users(self):
@@ -188,15 +189,15 @@ class User(object):
 
     @property
     def is_blueshirt(self):
-        return "mentors" in self._groups
+        return constants.BLUESHIRTS_GROUP in self._groups
 
     @property
     def is_blueshirt_extra(self):
-        return "mentors-extra" in self._groups
+        return constants.BLUESHIRTS_EXTRA_GROUP in self._groups
 
     @property
     def can_record_media_consent(self):
-        return "media-consent-admin" in self._groups
+        return constants.MEDIA_CONSENT_ADMINS_GROUP in self._groups
 
     def can_administrate(self, other_user_or_username):
         #if it's a string return the internal comparison with a user object
