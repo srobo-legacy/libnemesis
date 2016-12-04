@@ -272,25 +272,28 @@ class AuthenticatedUser(User):
         # one we just checked above.
         super(AuthenticatedUser, self).__init__(username)
 
-        self._viewable_users = set()
+        self._viewable_users_cache = set()
 
     @property
     def can_register_users(self):
         return self.is_teacher or self.is_blueshirt
 
     def _any_college_has_member(self, user_object):
-        self._setup_viewable_users()
-
         return user_object in self._viewable_users
 
     def _manages_team(self, team_object):
         return self.is_teacher and team_object in self.teams
 
-    def _setup_viewable_users(self):
-        if len(self._viewable_users) == 0:
-            for college in self.colleges:
-                for user in college.users:
-                    self._viewable_users.add(user)
+    @property
+    def _viewable_users(self):
+        if not self._viewable_users_cache:
+            self._viewable_users_cache = set(
+                user
+                for college in self.colleges
+                for user in college.users
+            )
+
+        return self._viewable_users_cache
 
     def _can_administrate(self, user_object):
         return user_object == self or (
