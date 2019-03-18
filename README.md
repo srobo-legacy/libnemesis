@@ -1,8 +1,8 @@
 # LibNemesis
 
 This is LibNemesis, primarliy intended as a backing library to
-[Nemesis](http://github.com/samphippen/nemesis), it provides high level
-functionality for organising users within a [Student Robotics](http://studentrobotics.org)
+[Nemesis](https://github.com/samphippen/nemesis), it provides high level
+functionality for organising users within a [Student Robotics](https://studentrobotics.org)
 [LDAP](https://www.studentrobotics.org/trac/wiki/LDAP) database.
 
 
